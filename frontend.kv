@@ -1,0 +1,1126 @@
+# imports
+#:import NoTransition kivy.uix.screenmanager.NoTransition
+#:import SlideTransition kivy.uix.screenmanager.SlideTransition
+
+
+
+
+# SignUp Classes
+<GetStarted>:
+    name: "GetStarted"
+    FloatLayout:
+        Image:
+            source: 'resources/hms_logo.png'
+            size_hint: (0.8,0.525)
+            pos_hint: {"x": 0.11, "top": 0.85}
+        
+        Button:
+            text: "Lets Start!"
+            font_size: 15
+            color: (1, 1, 1,1)
+            italic: True
+            background_color: (0/255, 153/255, 204/255, 1)
+            size_hint: (0.3,0.08)
+            pos_hint: {"x":0.36, "top": 0.35}
+            on_release:
+                root.start_program()
+                app.root.transition = SlideTransition(direction = "up")
+                app.root.current = "PatientSignUp"
+
+        Button:
+            text: "Ahammad Shawki 8"
+            font_size: 15
+            color: (51/255, 153/255, 255/255,1)
+            underline: True
+            background_color: (1,1,1,0)
+            size_hint: (0.3,0.08)
+            pos_hint: {"x":0.36, "top": 0.2}
+            on_release:
+                root.go_to_website()
+
+
+            
+<AdminSignUp>:
+    name: "AdminSignUp"
+
+    username: username
+    fullname: fullname
+    email: email
+    date_of_birth: date_of_birth
+    password: password
+
+    FloatLayout:
+        Label:
+            text: "SignUp Form"
+            font_size: 30
+            color: (0.4, 0.4, 0.4,1)
+            pos_hint: {"top": 1.4}
+
+        Label:
+            text: "Choose Your Category"
+            font_size: 20
+            color: (51/255, 153/255, 255/255,1)
+            pos_hint: {"top": 1.34}
+
+        Button:
+            id: admin_category
+            text: "Admin"
+            color: (51/255, 153/255, 255/255,1)
+            size_hint: (0.2,0.08)
+            pos_hint: {"x":0.1, "top": 0.81}
+
+        Button:
+            id: doctor_category
+            text: "Doctor"
+            size_hint: (0.2,0.08)
+            pos_hint: {"x":0.3, "top": 0.81}
+            on_release: 
+                app.root.transition = NoTransition()
+                app.root.current = "DoctorSignUp"
+
+        Button:
+            id: patient_category
+            text: "Patient"
+            size_hint: (0.2,0.08)
+            pos_hint: {"x":0.5, "top": 0.81}
+            on_release: 
+                app.root.transition = NoTransition()
+                app.root.current = "PatientSignUp"
+
+        Button:
+            id: employee_category
+            text: "Employee"
+            size_hint: (0.2,0.08)
+            pos_hint: {"x":0.7, "top": 0.81}
+            on_release: 
+                app.root.transition = NoTransition()
+                app.root.current = "EmployeeSignUp"
+
+        GridLayout:   
+            cols: 2 
+            size_hint: (0.6,0.4)   
+            pos_hint: {"x":0.2, "top": 0.7}
+            Label:
+                text: "Username: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: username
+                multiline: False
+                background_color: (1,1,1,1)
+
+            Label:
+                text: "Fullname: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: fullname
+                multiline: False
+
+            Label:
+                text: "Email: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: email
+                multiline: False
+
+            Label:
+                text: "Date of Birth: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: date_of_birth
+                text: "YYYY-MM-DD"
+                multiline: False
+
+            Label:
+                text: "Password: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: password
+                password: True
+                multiline: False
+
+        Button: 
+            text: "Already have an account? Log in."
+            font_size: 15
+            color: (51/255, 153/255, 255/255,1)
+            background_color: (1,1,1,0)
+            underline: True
+            size_hint: (0.3,0.08)
+            pos_hint: {"x":0.36, "top": 0.25}
+            on_release:
+                app.root.transition = SlideTransition(direction = "left")
+                app.root.current = "AdminLogin"
+            
+        Button: 
+            text: "Submit"
+            font_size: 18
+            color: (1, 1, 1,1)
+            italic: True
+            background_color: (0/255, 153/255, 204/255, 1)
+            size_hint: (0.3,0.08)
+            pos_hint: {"x":0.36, "top": 0.15}
+            on_release: 
+                app.root.transition = SlideTransition(direction = "left")
+                root.signup_to_database()
+                
+
+
+
+<DoctorSignUp>:
+    name: "DoctorSignUp"
+
+    username: username
+    fullname: fullname
+    email: email
+    date_of_birth: date_of_birth
+    password: password
+    specialty: specialty
+    price: price
+
+    FloatLayout:
+        Label:
+            text: "SignUp Form"
+            font_size: 30
+            color: (0.4, 0.4, 0.4,1)
+            pos_hint: {"top": 1.4}
+
+        Label:
+            text: "Choose Your Category"
+            font_size: 20
+            color: (51/255, 153/255, 255/255,1)
+            pos_hint: {"top": 1.34}
+
+        Button:
+            id: admin_category
+            text: "Admin"
+            size_hint: (0.2,0.08)
+            pos_hint: {"x":0.1, "top": 0.81}
+            on_release: 
+                app.root.transition = NoTransition()
+                app.root.current = "AdminSignUp"
+
+        Button:
+            id: doctor_category
+            text: "Doctor"
+            color: (51/255, 153/255, 255/255,1)
+            size_hint: (0.2,0.08)
+            pos_hint: {"x":0.3, "top": 0.81}
+
+        Button:
+            id: patient_category
+            text: "Patient"
+            size_hint: (0.2,0.08)
+            pos_hint: {"x":0.5, "top": 0.81}
+            on_release: 
+                app.root.transition = NoTransition()
+                app.root.current = "PatientSignUp"
+
+        Button:
+            id: employee_category
+            text: "Employee"
+            size_hint: (0.2,0.08)
+            pos_hint: {"x":0.7, "top": 0.81}
+            on_release: 
+                app.root.transition = NoTransition()
+                app.root.current = "EmployeeSignUp"
+
+        GridLayout:   
+            cols: 2 
+            size_hint: (0.6,0.4)   
+            pos_hint: {"x":0.2, "top": 0.7}
+            Label:
+                text: "Username: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: username
+                multiline: False
+                background_color: (1,1,1,1)
+
+            Label:
+                text: "Fullname: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: fullname
+                multiline: False
+
+            Label:
+                text: "Email: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: email
+                multiline: False
+
+            Label:
+                text: "Date of Birth: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: date_of_birth
+                text: "YYYY-MM-DD"
+                multiline: False
+
+            Label:
+                text: "Password: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: password
+                password: True
+                multiline: False
+
+            Label:
+                text: "Specialty: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: specialty
+                multiline: False
+            
+            Label:
+                text: "CheckUp Price: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: price
+                multiline: False
+
+        Button: 
+            text: "Already have an account? Log in."
+            font_size: 15
+            color: (51/255, 153/255, 255/255,1)
+            background_color: (1,1,1,0)
+            underline: True
+            size_hint: (0.3,0.08)
+            pos_hint: {"x":0.36, "top": 0.25}
+            on_release:
+                app.root.transition = SlideTransition(direction = "left")
+                app.root.current = "DoctorLogin"
+            
+        Button: 
+            text: "Submit"
+            font_size: 18
+            color: (1, 1, 1,1)
+            italic: True
+            background_color: (0/255, 153/255, 204/255, 1)
+            size_hint: (0.3,0.08)
+            pos_hint: {"x":0.36, "top": 0.15}
+            on_release: 
+                app.root.transition = SlideTransition(direction = "left")
+                root.signup_to_database()
+
+
+
+<PatientSignUp>:
+    name: "PatientSignUp"
+
+    username: username
+    fullname: fullname
+    email: email
+    date_of_birth: date_of_birth
+    password: password
+    problem: problem
+
+    FloatLayout:
+        Label:
+            text: "SignUp Form"
+            font_size: 30
+            color: (0.4, 0.4, 0.4,1)
+            pos_hint: {"top": 1.4}
+
+        Label:
+            text: "Choose Your Category"
+            font_size: 20
+            color: (51/255, 153/255, 255/255,1)
+            pos_hint: {"top": 1.34}
+
+        Button:
+            id: admin_category
+            text: "Admin"
+            size_hint: (0.2,0.08)
+            pos_hint: {"x":0.1, "top": 0.81}
+            on_release: 
+                app.root.transition = NoTransition()
+                app.root.current = "AdminSignUp"
+
+        Button:
+            id: doctor_category
+            text: "Doctor"
+            size_hint: (0.2,0.08)
+            pos_hint: {"x":0.3, "top": 0.81}
+            on_release: 
+                app.root.transition = NoTransition()
+                app.root.current = "DoctorSignUp"
+
+        Button:
+            id: patient_category
+            text: "Patient"
+            color: (51/255, 153/255, 255/255,1)
+            size_hint: (0.2,0.08)
+            pos_hint: {"x":0.5, "top": 0.81}
+            
+
+        Button:
+            id: employee_category
+            text: "Employee"
+            size_hint: (0.2,0.08)
+            pos_hint: {"x":0.7, "top": 0.81}
+            on_release: 
+                app.root.transition = NoTransition()
+                app.root.current = "EmployeeSignUp"
+
+        GridLayout:   
+            cols: 2 
+            size_hint: (0.6,0.4)   
+            pos_hint: {"x":0.2, "top": 0.7}
+            Label:
+                text: "Username: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: username
+                multiline: False
+                background_color: (1,1,1,1)
+
+            Label:
+                text: "Fullname: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: fullname
+                multiline: False
+
+            Label:
+                text: "Email: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: email
+                multiline: False
+
+            Label:
+                text: "Date of Birth: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: date_of_birth
+                text: "YYYY-MM-DD"
+                multiline: False
+
+            Label:
+                text: "Password: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: password
+                password: True
+                multiline: False
+
+            Label:
+                text: "Problem: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: problem
+                multiline: False
+
+        Button: 
+            id: btn
+            text: "Already have an account? Log in."
+            font_size: 15
+            color: (51/255, 153/255, 255/255,1)
+            background_color: (1,1,1,0)
+            underline: True
+            size_hint: (0.3,0.08)
+            pos_hint: {"x":0.36, "top": 0.25}
+            on_release:
+                app.root.transition = SlideTransition(direction = "left")
+                app.root.current = "PatientLogin"
+ 
+        Button: 
+            text: "Submit"
+            font_size: 18
+            color: (1, 1, 1,1)
+            italic: True
+            background_color: (0/255, 153/255, 204/255, 1)
+            size_hint: (0.3,0.08)
+            pos_hint: {"x":0.36, "top": 0.15}
+            on_release: 
+                app.root.transition = SlideTransition(direction = "left")
+                root.signup_to_database()
+
+
+
+<EmployeeSignUp>:
+    name: "EmployeeSignUp"
+
+    username: username
+    fullname: fullname
+    email: email
+    date_of_birth: date_of_birth
+    password: password
+    work: work
+    salary: salary
+
+    FloatLayout:
+        Label:
+            text: "SignUp Form"
+            font_size: 30
+            color: (0.4, 0.4, 0.4,1)
+            pos_hint: {"top": 1.4}
+
+        Label:
+            text: "Choose Your Category"
+            font_size: 20
+            color: (51/255, 153/255, 255/255,1)
+            pos_hint: {"top": 1.34}
+
+        Button:
+            id: admin_category
+            text: "Admin"
+            size_hint: (0.2,0.08)
+            pos_hint: {"x":0.1, "top": 0.81}
+            on_release: 
+                app.root.transition = NoTransition()
+                app.root.current = "AdminSignUp"
+
+        Button:
+            id: doctor_category
+            text: "Doctor"
+            size_hint: (0.2,0.08)
+            pos_hint: {"x":0.3, "top": 0.81}
+            on_release: 
+                app.root.transition = NoTransition()
+                app.root.current = "DoctorSignUp"
+
+        Button:
+            id: patient_category
+            text: "Patient"
+            size_hint: (0.2,0.08)
+            pos_hint: {"x":0.5, "top": 0.81}
+            on_release: 
+                app.root.transition = NoTransition()
+                app.root.current = "PatientSignUp"
+
+        Button:
+            id: employee_category
+            text: "Employee"
+            color: (51/255, 153/255, 255/255,1)
+            size_hint: (0.2,0.08)
+            pos_hint: {"x":0.7, "top": 0.81}
+
+        GridLayout:   
+            cols: 2 
+            size_hint: (0.6,0.4)   
+            pos_hint: {"x":0.2, "top": 0.7}
+            Label:
+                text: "Username: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: username
+                multiline: False
+                background_color: (1,1,1,1)
+
+            Label:
+                text: "Fullname: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: fullname
+                multiline: False
+
+            Label:
+                text: "Email: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: email
+                multiline: False
+
+            Label:
+                text: "Date of Birth: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: date_of_birth
+                text: "YYYY-MM-DD"
+                multiline: False
+
+            Label:
+                text: "Password: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: password
+                password: True
+                multiline: False
+
+            Label:
+                text: "Work: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: work
+                multiline: False
+            
+            Label:
+                text: "Salary: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: salary
+                multiline: False
+
+        Button: 
+            text: "Already have an account? Log in."
+            font_size: 15
+            color: (51/255, 153/255, 255/255,1)
+            background_color: (1,1,1,0)
+            underline: True
+            size_hint: (0.3,0.08)
+            pos_hint: {"x":0.36, "top": 0.25}
+            on_release:
+                app.root.transition = SlideTransition(direction = "left")
+                app.root.current = "EmployeeLogin"
+            
+        Button: 
+            text: "Submit"
+            font_size: 18
+            color: (1, 1, 1,1)
+            italic: True
+            background_color: (0/255, 153/255, 204/255, 1)
+            size_hint: (0.3,0.08)
+            pos_hint: {"x":0.36, "top": 0.15}
+            on_release: 
+                app.root.transition = SlideTransition(direction = "left")
+                root.signup_to_database()
+
+
+
+<SignUpPop>:
+    Label:
+        text: "Sorry, Something went Wrong :("
+        size_hint: 0.6, 0.2
+        pos_hint: {"x": 0.2, "top":0.9}
+    Label:
+        text: "Please read the docs and try again"
+        size_hint: 0.6, 0.2
+        pos_hint: {"x": 0.2, "top":0.7}
+
+
+
+
+# Login Classes
+<AdminLogin>:
+    name: "AdminLogin"
+
+    username: username
+    password: password
+
+    FloatLayout:
+        Label:
+            text: "Admin Login Form"
+            font_size: 30
+            color: (0.4, 0.4, 0.4,1)
+            pos_hint: {"x": 0.02,"top": 1.25}
+
+
+        GridLayout:   
+            cols: 2 
+            size_hint: (0.6,0.18)   
+            pos_hint: {"x":0.15, "top": 0.65}
+            Label:
+                text: "Username: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: username
+                multiline: False
+                background_color: (1,1,1,1)
+
+            Label:
+                text: "Password: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: password
+                password: True
+                multiline: False
+
+        Button: 
+            text: "Don't have an account? Sign Up."
+            font_size: 15
+            color: (51/255, 153/255, 255/255,1)
+            background_color: (1,1,1,0)
+            underline: True
+            size_hint: (0.3,0.08)
+            pos_hint: {"x":0.36, "top": 0.35}
+            on_release:
+                app.root.transition = SlideTransition(direction="right")
+                app.root.current = "AdminSignUp"
+            
+        Button: 
+            text: "Submit"
+            font_size: 18
+            color: (1, 1, 1,1)
+            italic: True
+            background_color: (0/255, 153/255, 204/255, 1)
+            size_hint: (0.3,0.08)
+            pos_hint: {"x":0.36, "top": 0.25}
+            on_release: 
+                app.root.transition = SlideTransition(direction = "left")
+                root.login_to_database()
+    
+
+
+<DoctorLogin>:
+    name: "DoctorLogin"
+
+    username: username
+    password: password
+
+    FloatLayout:
+        Label:
+            text: "Doctor Login Form"
+            font_size: 30
+            color: (0.4, 0.4, 0.4,1)
+            pos_hint: {"x": 0.02,"top": 1.25}
+
+
+        GridLayout:   
+            cols: 2 
+            size_hint: (0.6,0.18)   
+            pos_hint: {"x":0.15, "top": 0.65}
+            Label:
+                text: "Username: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: username
+                multiline: False
+                background_color: (1,1,1,1)
+
+            Label:
+                text: "Password: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: password
+                password: True
+                multiline: False
+
+        Button: 
+            text: "Don't have an account? Sign Up."
+            font_size: 15
+            color: (51/255, 153/255, 255/255,1)
+            background_color: (1,1,1,0)
+            underline: True
+            size_hint: (0.3,0.08)
+            pos_hint: {"x":0.36, "top": 0.35}
+            on_release:
+                app.root.transition = SlideTransition(direction="right")
+                app.root.current = "DoctorSignUp"
+            
+        Button: 
+            text: "Submit"
+            font_size: 18
+            color: (1, 1, 1,1)
+            italic: True
+            background_color: (0/255, 153/255, 204/255, 1)
+            size_hint: (0.3,0.08)
+            pos_hint: {"x":0.36, "top": 0.25}
+            on_release: 
+                app.root.transition = SlideTransition(direction = "left")
+                root.login_to_database()
+
+
+<PatientLogin>:
+    name: "PatientLogin"
+
+    username: username
+    password: password
+
+    FloatLayout:
+        Label:
+            text: "Patient Login Form"
+            font_size: 30
+            color: (0.4, 0.4, 0.4,1)
+            pos_hint: {"x": 0.02,"top": 1.25}
+
+
+        GridLayout:   
+            cols: 2 
+            size_hint: (0.6,0.18)   
+            pos_hint: {"x":0.15, "top": 0.65}
+            Label:
+                text: "Username: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: username
+                multiline: False
+                background_color: (1,1,1,1)
+
+            Label:
+                text: "Password: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: password
+                password: True
+                multiline: False
+
+        Button: 
+            text: "Don't have an account? Sign Up."
+            font_size: 15
+            color: (51/255, 153/255, 255/255,1)
+            background_color: (1,1,1,0)
+            underline: True
+            size_hint: (0.3,0.08)
+            pos_hint: {"x":0.36, "top": 0.35}
+            on_release:
+                app.root.transition = SlideTransition(direction="right")
+                app.root.current = "PatientSignUp"
+            
+        Button: 
+            text: "Submit"
+            font_size: 18
+            color: (1, 1, 1,1)
+            italic: True
+            background_color: (0/255, 153/255, 204/255, 1)
+            size_hint: (0.3,0.08)
+            pos_hint: {"x":0.36, "top": 0.25}
+            on_release: 
+                app.root.transition = SlideTransition(direction = "left")
+                root.login_to_database()
+
+
+
+
+<EmployeeLogin>:
+    name: "EmployeeLogin"
+
+    username: username
+    password: password
+
+    FloatLayout:
+        Label:
+            text: "Employee Login Form"
+            font_size: 30
+            color: (0.4, 0.4, 0.4,1)
+            pos_hint: {"x": 0.02,"top": 1.25}
+
+
+        GridLayout:   
+            cols: 2 
+            size_hint: (0.6,0.18)   
+            pos_hint: {"x":0.15, "top": 0.65}
+            Label:
+                text: "Username: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: username
+                multiline: False
+                background_color: (1,1,1,1)
+
+            Label:
+                text: "Password: "
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: password
+                password: True
+                multiline: False
+
+        Button: 
+            text: "Don't have an account? Sign Up."
+            font_size: 15
+            color: (51/255, 153/255, 255/255,1)
+            background_color: (1,1,1,0)
+            underline: True
+            size_hint: (0.3,0.08)
+            pos_hint: {"x":0.36, "top": 0.35}
+            on_release:
+                app.root.transition = SlideTransition(direction="right")
+                app.root.current = "EmployeeSignUp"
+            
+        Button: 
+            text: "Submit"
+            font_size: 18
+            color: (1, 1, 1,1)
+            italic: True
+            background_color: (0/255, 153/255, 204/255, 1)
+            size_hint: (0.3,0.08)
+            pos_hint: {"x":0.36, "top": 0.25}
+            on_release: 
+                app.root.transition = SlideTransition(direction = "left")
+                root.login_to_database()
+
+
+
+<LoginPop>:
+    Label:
+        text: "Sorry, Something went Wrong :("
+        size_hint: 0.6, 0.2
+        pos_hint: {"x": 0.2, "top":0.9}
+    Label:
+        text: "Invalid Username or Password"
+        size_hint: 0.6, 0.2
+        pos_hint: {"x": 0.2, "top":0.7}
+
+
+
+# After Login Classes
+<Temporary>:
+    name: "Temporary"
+    
+    Label:
+        text: "Successfully Logged In"
+        font_size: 30
+        color: (0.4, 0.4, 0.4,1)
+        pos_hint: {"x": 0.02,"top": 0.6}
+
+
+<AboutHospital>:
+    name: "AboutHospital"
+
+    FloatLayout:
+        Image:
+            source: 'resources/hospital_illus.jpg'
+            size_hint: (0.5,0.325)
+            pos_hint: {"x": 0.08, "top": 0.85}
+
+<Documentation>:
+    name: "Documentation"
+
+    FloatLayout:
+        Image:
+            source: 'resources/documentation_class.png'
+            size_hint: (0.7,0.3)
+            pos_hint: {"x": 0.1, "top": 0.85}
+
+        
+
+# Admin Classes
+<AdminAfterLogin>:
+    name: "AdminAfterLogin"
+    
+    FloatLayout:      
+
+        Button:
+            size_hint: (None, None)
+            width: 150
+            height: self.width
+            pos_hint: {"x": 0.22, "top": 0.55}
+            background_normal: "resources/functions.png"
+            background_down: "resources/functions_down.png"
+
+        Button:
+            size_hint: (None, None)
+            width: 150
+            height: self.width
+            pos_hint: {"x": 0.62, "top": 0.55}
+            background_normal: "resources/settings.jpg"
+            background_down: "resources/settings_down.jpg"
+
+        Button:
+            size_hint: (None, None)
+            width: 150
+            height: self.width
+            pos_hint: {"x": 0.22, "top": 0.32}
+            background_normal: "resources/hospital.png"
+            background_down: "resources/hospital_down.png"
+            on_release:
+                app.root.transition = SlideTransition(direction="left")
+                app.root.current = "AdminAboutHospital"
+
+        Button:
+            size_hint: (None, None)
+            width: 150
+            height: self.width
+            pos_hint: {"x": 0.62, "top": 0.32}
+            background_normal: "resources/docs.png"
+            background_down: "resources/docs_down.png"
+            on_release:
+                app.root.transition = SlideTransition(direction="left")
+                app.root.current = "AdminDocumentation"
+
+
+        Carousel:
+            direction: "right"
+            size_hint: (None, None)
+            width: 600
+            height: 200
+            pos_hint: {"x": 0.13, "top": 0.85}
+            loop: True
+            scroll_timeout: 100
+            Image:
+                source: "resources/carousel1.png"
+            Image:
+                source: "resources/carousel2.png"
+            Image:
+                source: "resources/carousel3.png"
+
+
+
+
+
+# Doctor Classes
+<DoctorAfterLogin>:
+    name: "DoctorAfterLogin"
+    
+    FloatLayout:      
+
+        Button:
+            size_hint: (None, None)
+            width: 150
+            height: self.width
+            pos_hint: {"x": 0.22, "top": 0.55}
+            background_normal: "resources/functions.png"
+            background_down: "resources/functions_down.png"
+
+        Button:
+            size_hint: (None, None)
+            width: 150
+            height: self.width
+            pos_hint: {"x": 0.62, "top": 0.55}
+            background_normal: "resources/settings.jpg"
+            background_down: "resources/settings_down.jpg"
+
+        Button:
+            size_hint: (None, None)
+            width: 150
+            height: self.width
+            pos_hint: {"x": 0.22, "top": 0.32}
+            background_normal: "resources/hospital.png"
+            background_down: "resources/hospital_down.png"
+            on_release:
+                app.root.transition = SlideTransition(direction="left")
+                app.root.current = "DoctorAboutHospital"
+
+        Button:
+            size_hint: (None, None)
+            width: 150
+            height: self.width
+            pos_hint: {"x": 0.62, "top": 0.32}
+            background_normal: "resources/docs.png"
+            background_down: "resources/docs_down.png"
+            on_release:
+                app.root.transition = SlideTransition(direction="left")
+                app.root.current = "AdminDocumentation"
+
+
+        Carousel:
+            direction: "right"
+            size_hint: (None, None)
+            width: 600
+            height: 200
+            pos_hint: {"x": 0.13, "top": 0.85}
+            loop: True
+            scroll_timeout: 100
+            Image:
+                source: "resources/carousel1.png"
+            Image:
+                source: "resources/carousel2.png"
+            Image:
+                source: "resources/carousel3.png"
+
+
+
+
+# Patient Classes
+<PatientAfterLogin>:
+    name: "PatientAfterLogin"
+    
+    FloatLayout:      
+
+        Button:
+            size_hint: (None, None)
+            width: 150
+            height: self.width
+            pos_hint: {"x": 0.22, "top": 0.55}
+            background_normal: "resources/functions.png"
+            background_down: "resources/functions_down.png"
+
+        Button:
+            size_hint: (None, None)
+            width: 150
+            height: self.width
+            pos_hint: {"x": 0.62, "top": 0.55}
+            background_normal: "resources/settings.jpg"
+            background_down: "resources/settings_down.jpg"
+
+        Button:
+            size_hint: (None, None)
+            width: 150
+            height: self.width
+            pos_hint: {"x": 0.22, "top": 0.32}
+            background_normal: "resources/hospital.png"
+            background_down: "resources/hospital_down.png"
+            on_release:
+                app.root.transition = SlideTransition(direction="left")
+                app.root.current = "PatientAboutHospital"
+
+        Button:
+            size_hint: (None, None)
+            width: 150
+            height: self.width
+            pos_hint: {"x": 0.62, "top": 0.32}
+            background_normal: "resources/docs.png"
+            background_down: "resources/docs_down.png"
+            on_release:
+                app.root.transition = SlideTransition(direction="left")
+                app.root.current = "AdminDocumentation"
+
+
+        Carousel:
+            direction: "right"
+            size_hint: (None, None)
+            width: 600
+            height: 200
+            pos_hint: {"x": 0.13, "top": 0.85}
+            loop: True
+            scroll_timeout: 100
+            Image:
+                source: "resources/carousel1.png"
+            Image:
+                source: "resources/carousel2.png"
+            Image:
+                source: "resources/carousel3.png"
+
+
+
+# Employee Classes
+<EmployeeAfterLogin>:
+    name: "EmployeeAfterLogin"
+    
+    FloatLayout:      
+
+        Button:
+            size_hint: (None, None)
+            width: 150
+            height: self.width
+            pos_hint: {"x": 0.22, "top": 0.55}
+            background_normal: "resources/functions.png"
+            background_down: "resources/functions_down.png"
+
+        Button:
+            size_hint: (None, None)
+            width: 150
+            height: self.width
+            pos_hint: {"x": 0.62, "top": 0.55}
+            background_normal: "resources/settings.jpg"
+            background_down: "resources/settings_down.jpg"
+
+        Button:
+            size_hint: (None, None)
+            width: 150
+            height: self.width
+            pos_hint: {"x": 0.22, "top": 0.32}
+            background_normal: "resources/hospital.png"
+            background_down: "resources/hospital_down.png"
+            on_release:
+                app.root.transition = SlideTransition(direction="left")
+                app.root.current = "EmployeeAboutHospital"
+
+        Button:
+            size_hint: (None, None)
+            width: 150
+            height: self.width
+            pos_hint: {"x": 0.62, "top": 0.32}
+            background_normal: "resources/docs.png"
+            background_down: "resources/docs_down.png"
+            on_release:
+                app.root.transition = SlideTransition(direction="left")
+                app.root.current = "AdminDocumentation"
+
+
+        Carousel:
+            direction: "right"
+            size_hint: (None, None)
+            width: 600
+            height: 200
+            pos_hint: {"x": 0.13, "top": 0.85}
+            loop: True
+            scroll_timeout: 100
+            Image:
+                source: "resources/carousel1.png"
+            Image:
+                source: "resources/carousel2.png"
+            Image:
+                source: "resources/carousel3.png"
