@@ -10,5 +10,4 @@ import setup_engine
 import backup_restore
 
 
-employee.appoint_doctor("lfb", "brm", "mtc", "2021-02-15 12:00:00", True)
-print(patient.remaining_appointment_time("mtc", True))
+setup_engine.start_program()

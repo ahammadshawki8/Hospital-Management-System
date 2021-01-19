@@ -6,6 +6,18 @@ from DB_config import config
 import constant
 
 
+def see_info(logged_in,category,username):
+    if logged_in:
+        username = username.strip().lower()
+        with psycopg2.connect(**config()) as info_check:
+            cur1 = info_check.cursor()
+            cur1.execute(f"""
+                SELECT * FROM {category} WHERE username = '{username}';
+            """)
+            info = cur1.fetchall()
+            cur1.close()
+        info_check.close()
+        return info
 
 def add_constant(logged_in,name,value):
     if logged_in:
