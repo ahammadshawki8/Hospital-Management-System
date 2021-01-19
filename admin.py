@@ -19,6 +19,7 @@ def see_info(logged_in,category,username):
         info_check.close()
         return info
 
+
 def add_constant(logged_in,name,value):
     if logged_in:
         name = name.upper()

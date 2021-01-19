@@ -34,7 +34,7 @@ def recent_notifications(username, logged_in, limit = 1):
         return list_of_notifications[-limit:] if limit < len(list_of_notifications) else list_of_notifications[-len(list_of_notifications):]
 
 
-def notify_admin(notification, admin_username, logged_in):
+def notify_admin(notification, my_username, admin_username, logged_in):
     if logged_in:
         with psycopg2.connect(**config()) as add_notifications:
             cur1 = add_notifications.cursor()
@@ -43,6 +43,7 @@ def notify_admin(notification, admin_username, logged_in):
             """)
             notifications_string = cur1.fetchall()[0][0]
             list_of_notifications = notifications_string.split(", ")
+            notification = "From: " + my_username + " " + notification
             list_of_notifications.append(notification)
             new_notifications_string = ", ".join(list_of_notifications)
             cur1.close()
