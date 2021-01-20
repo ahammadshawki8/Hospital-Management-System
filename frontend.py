@@ -19,6 +19,7 @@ from kivy.uix.carousel import Carousel
 from kivy.uix.image import Image
 from kivy.uix.screenmanager import SlideTransition
 from kivy.config import Config
+from kivy.uix.textinput import TextInput
 
 # Backend Imports
 import login
@@ -790,7 +791,6 @@ class Notifications(Screen):
         self.username = self.find_my_username()
         self.category = self.find_my_category()
         self.notifications = self.get_my_notification(self.username, self.category)
-        print(self.notifications)
 
         with self.canvas:
             Color(51/255, 153/255, 255/255,1,mode="rgba")
@@ -919,6 +919,199 @@ class EmployeeNotifications(Notifications):
 
 
 
+class AddNotifications(Screen):
+    receiver = ObjectProperty()
+    body = ObjectProperty()
+    receiver_category = ObjectProperty()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        self.username = self.find_my_username()
+        self.category = self.find_my_category()
+        with self.canvas:
+            Color(51/255, 153/255, 255/255,1,mode="rgba")
+            Line(points = ((0, 580),(1000, 580)), width = 50)
+            Line(points = ((0, 0),(1000, 0)), width = 35)
+        self.title = Label(text=self.find_my_category().capitalize()+ " Add Notifications", font_size=40, color=(1,1,1,1))
+        self.title.pos_hint= {"x":0.05, "top": 1.45}
+        self.add_widget(self.title)
+
+        self.logo = Button(background_normal="resources/short_logo.png", background_down="resources/short_logo.png") 
+        self.logo.size_hint = (None, None)
+        self.logo.width = 120
+        self.logo.height = 90
+        self.logo.color = (0,0,0,1)
+        self.logo.pos_hint = {"x": 0.1, "top": 1.02}
+        self.add_widget(self.logo)
+
+        self.close_button = Button(background_normal="resources/close.png", background_down="resources/close_down.png") 
+        self.close_button.size_hint = (None, None)
+        self.close_button.width = 60
+        self.close_button.height = 60
+        self.close_button.color = (0,0,0,1)
+        self.close_button.pos_hint = {"x": 0.85, "top": 0.99}
+        self.add_widget(self.close_button)
+        self.close_button.bind(on_release = self.go_back)
+
+        self.tagline = Label(text="Built with Python, PostgreSQL and Kivy by Ahammad", font_size=13, color=(1,1,1,1))
+        self.tagline.pos_hint = {"x":-0.27, "top": 0.525}
+        self.add_widget(self.tagline)
+
+        self.creatorline= Button(text="About Creator: Ahammad Shawki 8", font_size=13, color=(1,1,1,1))
+        self.creatorline.pos_hint = {"x":0.7, "top": 0.05}
+        self.creatorline.size_hint = (0.28,0.05)
+        self.creatorline.background_color = (1,1,1,0)
+        self.add_widget(self.creatorline)
+        self.creatorline.bind(on_press = go_to_website)
+
+        self.info_grid = GridLayout()
+        self.info_grid.cols = 2
+        self.info_grid.pos_hint = {"x": 0.2, "top": 0.7}
+        self.info_grid.size_hint = 0.6, 0.3
+        if self.category == "admin":
+            self.receiver_username_name = Label(text= "Receiver's username:", font_size=15, color = (0,0,0,1))
+            self.info_grid.add_widget(self.receiver_username_name)
+            self.receiver_username_value = TextInput(multiline = False)
+            self.info_grid.add_widget(self.receiver_username_value)            
+            self.receiver_category_name = Label(text= "Receiver's category:", font_size=15, color = (0,0,0,1))
+            self.info_grid.add_widget(self.receiver_category_name)
+            self.receiver_category_value = TextInput(multiline = False)
+            self.info_grid.add_widget(self.receiver_category_value)
+        else:
+            self.receiver_username_name = Label(text= "Admin's username:", font_size=15, color = (0,0,0,1))
+            self.info_grid.add_widget(self.receiver_username_name)
+            self.receiver_username_value = TextInput(multiline = False)
+            self.info_grid.add_widget(self.receiver_username_value)
+        self.notification_body_name = Label(text= "Notification's Body: ", font_size=15, color = (0,0,0,1))
+        self.info_grid.add_widget(self.notification_body_name)
+        self.notification_body_value = TextInput(multiline = False)
+        self.info_grid.add_widget(self.notification_body_value)
+        self.add_widget(self.info_grid)
+
+        self.submit = Button(text = "Send")
+        self.submit.font_size = 18
+        self.submit.color = (1, 1, 1,1)
+        self.submit.italic = True
+        self.submit.background_color = (0/255, 153/255, 204/255, 1)
+        self.submit.size_hint = (0.3,0.08)
+        self.submit.pos_hint = {"x":0.36, "top": 0.2}
+        self.add_widget(self.submit)
+        self.submit.bind(on_release = self.pre_notifications)
+
+    def pre_notifications(self, instance):
+        receiver = self.receiver_username_value.text
+        body = self.notification_body_value.text
+        username = self.username
+        
+        self.send_notifications(body, receiver, username)
+        
+        self.receiver_username_value.text = ""
+        self.notification_body_value.text = ""
+
+
+    def send_notifications(self,body,receiver,username):
+        return "Default"
+
+
+    def find_my_category(self):
+        return "doctor"
+    
+    def find_my_username(self):
+        return "hpt"
+    
+    def go_back(self):
+        pass
+
+
+class AdminAddNotifications(AddNotifications):
+    def find_my_category(self):
+        return "admin"
+    
+    def find_my_username(self):
+        return Holder.username
+    
+    def go_back(self, instance):
+        sm.transition = SlideTransition(direction = "right")
+        sm.current = "AdminAfterLogin"
+
+    def pre_notifications(self, instance):
+        receiver = self.receiver_username_value.text
+        receiver_cat = self.receiver_category_value.text
+        body = self.notification_body_value.text
+        username = self.username
+        
+        self.send_notifications(body, receiver, username, receiver_cat)
+        
+        self.receiver_username_value.text = ""
+        self.notification_body_value.text = ""
+        self.receiver_category_value.text = ""
+    
+    def send_notifications(self, body, receiver, username, category):
+        self.body = body
+        self.receiver = receiver
+        self.username = username
+        self.category = category
+
+        admin.add_notification(body,category,receiver, True)
+
+class DoctorAddNotifications(AddNotifications):
+    def find_my_category(self):
+        return "doctor"
+    
+    def find_my_username(self):
+        return Holder.username
+    
+    def go_back(self, instance):
+        sm.transition = SlideTransition(direction = "right")
+        sm.current = "DoctorAfterLogin"
+    
+    def send_notifications(self, body, receiver, username):
+        self.body = body
+        self.receiver = receiver
+        self.username = username
+        print(self.body, self.username, self.receiver, True)
+        return doctor.notify_admin(self.body, self.username, self.receiver, True)
+
+class PatientAddNotifications(AddNotifications):
+    def find_my_category(self):
+        return "patient"
+
+    def find_my_username(self):
+        return Holder.username
+    
+    def go_back(self, instance):
+        sm.transition = SlideTransition(direction = "right")
+        sm.current = "PatientAfterLogin"
+    
+    def send_notifications(self, body, receiver, username):
+        self.body = body
+        self.receiver = receiver
+        self.username = username
+        return patient.notify_admin(self.body, self.username, self.receiver, True)
+
+class EmployeeAddNotifications(AddNotifications):
+    def find_my_category(self):
+        return "employee"
+
+    def find_my_username(self):
+        return Holder.username
+    
+    def go_back(self, instance):
+        sm.transition = SlideTransition(direction = "right")
+        sm.current = "EmployeeAfterLogin" 
+
+    def send_notifications(self, body, receiver, username):
+        self.body = body
+        self.receiver = receiver
+        self.username = username
+        return employee.notify_admin(self.body, self.username, self.receiver, True)
+
+
+
+
+
+
+
 
 # Admin Classes
 class AdminAfterLoginWidgets(Widget):
@@ -946,6 +1139,7 @@ class AdminAfterLogin(Screen, Widget):
         self.add_notifications_button.color = (0,0,0,1)
         self.add_notifications_button.pos_hint = {"x": 0.72, "top": 1}
         self.add_widget(self.add_notifications_button)
+        self.add_notifications_button.bind(on_release = self.go_to_add_notifications)
 
         self.notifications_button = Button(background_normal="resources/notifications.png", background_down="resources/notifications_down.png") 
         self.notifications_button.size_hint = (None, None)
@@ -1010,6 +1204,11 @@ class AdminAfterLogin(Screen, Widget):
         sm.transition = SlideTransition(direction = "left")
         sm.current = "AdminNotifications"
 
+    def go_to_add_notifications(self, instance):
+        sm.add_widget(AdminAddNotifications(name = "AdminAddNotifications"))
+        sm.transition = SlideTransition(direction = "left")
+        sm.current = "AdminAddNotifications"
+
 
 # Doctor Classes
 class DoctorAfterLogin(Screen, Widget):
@@ -1033,6 +1232,7 @@ class DoctorAfterLogin(Screen, Widget):
         self.add_notifications_button.color = (0,0,0,1)
         self.add_notifications_button.pos_hint = {"x": 0.72, "top": 1}
         self.add_widget(self.add_notifications_button)
+        self.add_notifications_button.bind(on_release = self.go_to_add_notifications)
 
         self.notifications_button = Button(background_normal="resources/notifications.png", background_down="resources/notifications_down.png") 
         self.notifications_button.size_hint = (None, None)
@@ -1097,6 +1297,11 @@ class DoctorAfterLogin(Screen, Widget):
         sm.transition = SlideTransition(direction = "left")
         sm.current = "DoctorNotifications"
 
+    def go_to_add_notifications(self, instance):
+        sm.add_widget(DoctorAddNotifications(name = "DoctorAddNotifications"))
+        sm.transition = SlideTransition(direction = "left")
+        sm.current = "DoctorAddNotifications"
+
 
 # Patient Classes
 class PatientAfterLogin(Screen, Widget):
@@ -1120,6 +1325,7 @@ class PatientAfterLogin(Screen, Widget):
         self.add_notifications_button.color = (0,0,0,1)
         self.add_notifications_button.pos_hint = {"x": 0.72, "top": 1}
         self.add_widget(self.add_notifications_button)
+        self.add_notifications_button.bind(on_release = self.go_to_add_notifications)
 
         self.notifications_button = Button(background_normal="resources/notifications.png", background_down="resources/notifications_down.png") 
         self.notifications_button.size_hint = (None, None)
@@ -1128,7 +1334,7 @@ class PatientAfterLogin(Screen, Widget):
         self.notifications_button.color = (0,0,0,1)
         self.notifications_button.pos_hint = {"x": 0.80, "top": 1}
         self.add_widget(self.notifications_button)
-        self.notifications_button.bind(on_release = self.go_to_notifications)
+        self.notifications_button.bind(on_release = self.go_to_notifications)        
 
         self.profile_button = Button(background_normal="resources/profile.png", background_down="resources/profile_down.png") 
         self.profile_button.size_hint = (None, None)
@@ -1183,6 +1389,11 @@ class PatientAfterLogin(Screen, Widget):
         sm.add_widget(PatientNotifications(name = "PatientNotifications"))
         sm.transition = SlideTransition(direction = "left")
         sm.current = "PatientNotifications"
+    
+    def go_to_add_notifications(self, instance):
+        sm.add_widget(PatientAddNotifications(name = "PatientAddNotifications"))
+        sm.transition = SlideTransition(direction = "left")
+        sm.current = "PatientAddNotifications"
 
 # Employee Classes
 class EmployeeAfterLogin(Screen, Widget):
@@ -1205,7 +1416,8 @@ class EmployeeAfterLogin(Screen, Widget):
         self.add_notifications_button.height = 70
         self.add_notifications_button.color = (0,0,0,1)
         self.add_notifications_button.pos_hint = {"x": 0.72, "top": 1}
-        self.add_widget(self.add_notifications_button)        
+        self.add_widget(self.add_notifications_button)
+        self.add_notifications_button.bind(on_release = self.go_to_add_notifications)        
 
         self.notifications_button = Button(background_normal="resources/notifications.png", background_down="resources/notifications_down.png") 
         self.notifications_button.size_hint = (None, None)
@@ -1269,6 +1481,11 @@ class EmployeeAfterLogin(Screen, Widget):
         sm.add_widget(EmployeeNotifications(name = "EmployeeNotifications"))
         sm.transition = SlideTransition(direction = "left")
         sm.current = "EmployeeNotifications"
+    
+    def go_to_add_notifications(self, instance):
+        sm.add_widget(EmployeeAddNotifications(name = "EmployeeAddNotifications"))
+        sm.transition = SlideTransition(direction = "left")
+        sm.current = "EmployeeAddNotifications"
 
 
 
@@ -1285,7 +1502,7 @@ screens = [
     DoctorAfterLogin(name="DoctorAfterLogin"), DoctorAboutHospital(name="DoctorAboutHospital"), DoctorDocumentation(name="DoctorDocumentation"),
     PatientAfterLogin(name="PatientAfterLogin"), PatientAboutHospital(name="PatientAboutHospital"), PatientDocumentation(name="PatientDocumentation"),
     EmployeeAfterLogin(name="EmployeeAfterLogin"), EmployeeAboutHospital(name="EmployeeAboutHospital"), EmployeeDocumentation(name="EmployeeDocumentation"),
-    Profile(name="Profile"), Notifications(name = "Notifications")
+    Profile(name="Profile"), Notifications(name = "Notifications"), AddNotifications(name = "AddNotifications")
     ]
 
 for screen in screens:
