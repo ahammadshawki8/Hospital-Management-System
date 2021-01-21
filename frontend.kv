@@ -1,4 +1,4 @@
-# imports
+# All imports
 #:import NoTransition kivy.uix.screenmanager.NoTransition
 #:import SlideTransition kivy.uix.screenmanager.SlideTransition
 
@@ -38,8 +38,7 @@
             on_release:
                 root.go_to_website()
 
-
-            
+        
 <AdminSignUp>:
     name: "AdminSignUp"
 
@@ -162,8 +161,6 @@
                 app.root.transition = SlideTransition(direction = "left")
                 root.signup_to_database()
                 
-
-
 
 <DoctorSignUp>:
     name: "DoctorSignUp"
@@ -304,7 +301,6 @@
                 root.signup_to_database()
 
 
-
 <PatientSignUp>:
     name: "PatientSignUp"
 
@@ -436,7 +432,6 @@
             on_release: 
                 app.root.transition = SlideTransition(direction = "left")
                 root.signup_to_database()
-
 
 
 <EmployeeSignUp>:
@@ -578,7 +573,6 @@
                 root.signup_to_database()
 
 
-
 <SignUpPop>:
     Label:
         text: "Sorry, Something went Wrong :("
@@ -588,6 +582,8 @@
         text: "Please read the docs and try again"
         size_hint: 0.6, 0.2
         pos_hint: {"x": 0.2, "top":0.7}
+
+
 
 
 
@@ -651,7 +647,6 @@
                 app.root.transition = SlideTransition(direction = "left")
                 root.login_to_database()
     
-
 
 <DoctorLogin>:
     name: "DoctorLogin"
@@ -771,8 +766,6 @@
                 root.login_to_database()
 
 
-
-
 <EmployeeLogin>:
     name: "EmployeeLogin"
 
@@ -832,7 +825,6 @@
                 root.login_to_database()
 
 
-
 <LoginPop>:
     Label:
         text: "Sorry, Something went Wrong :("
@@ -842,6 +834,9 @@
         text: "Invalid Username or Password"
         size_hint: 0.6, 0.2
         pos_hint: {"x": 0.2, "top":0.7}
+
+
+
 
 
 
@@ -864,6 +859,7 @@
             source: 'resources/hospital_illus.jpg'
             size_hint: (0.5,0.325)
             pos_hint: {"x": 0.08, "top": 0.85}
+
 
 <Documentation>:
     name: "Documentation"
@@ -894,9 +890,20 @@
             size_hint: (0.7,0.3)
             pos_hint: {"x": 0.16, "top": 0.85}
 
-        
+<NotificationPop>:
+    Label:
+        text: "Sorry, Something went Wrong :("
+        size_hint: 0.6, 0.2
+        pos_hint: {"x": 0.2, "top":0.9}
+    Label:
+        text: 
+            """   Invalid Username or Category. \nPlease read the docs and try again"""
+        size_hint: 0.6, 0.2
+        pos_hint: {"x": 0.21, "top":0.5}
 
-# Admin Classes
+
+
+# AdminAfterLogin Class
 <AdminAfterLogin>:
     name: "AdminAfterLogin"
     
@@ -917,6 +924,8 @@
             pos_hint: {"x": 0.62, "top": 0.55}
             background_normal: "resources/settings.jpg"
             background_down: "resources/settings_down.jpg"
+            on_release: root.go_to_settings()
+                
 
         Button:
             size_hint: (None, None)
@@ -959,8 +968,7 @@
 
 
 
-
-# Doctor Classes
+# DoctorAfterLogin Classes
 <DoctorAfterLogin>:
     name: "DoctorAfterLogin"
     
@@ -981,6 +989,7 @@
             pos_hint: {"x": 0.62, "top": 0.55}
             background_normal: "resources/settings.jpg"
             background_down: "resources/settings_down.jpg"
+            on_release: root.go_to_settings()
 
         Button:
             size_hint: (None, None)
@@ -1002,8 +1011,7 @@
             background_down: "resources/docs_down.png"
             on_release:
                 app.root.transition = SlideTransition(direction="left")
-                app.root.current = "AdminDocumentation"
-
+                app.root.current = "DoctorDocumentation"
 
         Carousel:
             direction: "right"
@@ -1023,7 +1031,7 @@
 
 
 
-# Patient Classes
+# PatientAfterLogin Classes
 <PatientAfterLogin>:
     name: "PatientAfterLogin"
     
@@ -1044,6 +1052,7 @@
             pos_hint: {"x": 0.62, "top": 0.55}
             background_normal: "resources/settings.jpg"
             background_down: "resources/settings_down.jpg"
+            on_release: root.go_to_settings()
 
         Button:
             size_hint: (None, None)
@@ -1065,8 +1074,7 @@
             background_down: "resources/docs_down.png"
             on_release:
                 app.root.transition = SlideTransition(direction="left")
-                app.root.current = "AdminDocumentation"
-
+                app.root.current = "PatientDocumentation"
 
         Carousel:
             direction: "right"
@@ -1085,12 +1093,12 @@
 
 
 
-# Employee Classes
+
+# EmployeeAfterLogin Classes
 <EmployeeAfterLogin>:
     name: "EmployeeAfterLogin"
     
     FloatLayout:      
-
         Button:
             size_hint: (None, None)
             width: 150
@@ -1106,6 +1114,7 @@
             pos_hint: {"x": 0.62, "top": 0.55}
             background_normal: "resources/settings.jpg"
             background_down: "resources/settings_down.jpg"
+            on_release: root.go_to_settings()
 
         Button:
             size_hint: (None, None)
@@ -1127,8 +1136,7 @@
             background_down: "resources/docs_down.png"
             on_release:
                 app.root.transition = SlideTransition(direction="left")
-                app.root.current = "AdminDocumentation"
-
+                app.root.current = "EmployeeDocumentation"
 
         Carousel:
             direction: "right"

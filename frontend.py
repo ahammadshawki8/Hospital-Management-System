@@ -1,4 +1,4 @@
-# Kivy Imports
+# All Imports
 import kivy
 from kivy.app import App
 from kivy.properties import ObjectProperty
@@ -20,8 +20,8 @@ from kivy.uix.image import Image
 from kivy.uix.screenmanager import SlideTransition
 from kivy.config import Config
 from kivy.uix.textinput import TextInput
+from kivy.graphics import Rectangle
 
-# Backend Imports
 import login
 import constant
 import admin
@@ -29,6 +29,10 @@ import datetime
 import doctor
 import patient
 import employee
+
+
+
+
 
 
 # Common Classes 
@@ -45,6 +49,9 @@ Config.write()
 
 
 
+
+
+
 # SignUp Classes
 class GetStarted(Screen):
     first_start = False
@@ -57,7 +64,6 @@ class GetStarted(Screen):
 
     def go_to_website(self):
         web.open_new_tab("https://ahammadshawki8.github.io/")
-
 
 
 class AdminSignUp(Screen):
@@ -87,8 +93,6 @@ class AdminSignUp(Screen):
         self.email.text = ""
         self.date_of_birth.text = "YYYY-MM-DD"
         self.password.text = ""
-
-
 
 
 class DoctorSignUp(Screen):
@@ -125,7 +129,6 @@ class DoctorSignUp(Screen):
         self.price.text = ""    
 
 
-
 class PatientSignUp(Screen):
     username = ObjectProperty()
     fullname = ObjectProperty()
@@ -155,7 +158,6 @@ class PatientSignUp(Screen):
         self.date_of_birth.text = "YYYY-MM-DD"
         self.password.text = ""
         self.problem.text = ""  
-
 
 
 class EmployeeSignUp(Screen):
@@ -192,7 +194,6 @@ class EmployeeSignUp(Screen):
         self.salary.text = ""  
 
 
-
 class SignUpPop(FloatLayout):
     pass
 
@@ -200,6 +201,8 @@ def show_SignUpPop():
     show = SignUpPop()
     popup_window = Popup(title = "SignUp Error", content = show, size_hint = (0.6, 0.3))
     popup_window.open()
+
+
 
 
 
@@ -228,7 +231,6 @@ class AdminLogin(Screen):
         self.password.text = ""
 
 
-
 class DoctorLogin(Screen):    
     username = ObjectProperty()
     password = ObjectProperty()
@@ -250,8 +252,6 @@ class DoctorLogin(Screen):
             
         self.username.text = ""
         self.password.text = ""
-
-
 
 
 class PatientLogin(Screen):
@@ -278,7 +278,6 @@ class PatientLogin(Screen):
         self.password.text = ""
 
 
-
 class EmployeeLogin(Screen):
     username = ObjectProperty()
     password = ObjectProperty()
@@ -302,10 +301,8 @@ class EmployeeLogin(Screen):
         self.password.text = ""
 
         
-
 class LoginPop(FloatLayout):
     pass
-
 
 def show_LoginPop():
     show = LoginPop()
@@ -315,7 +312,10 @@ def show_LoginPop():
 
 
 
+
+
 # After Login
+# Common classes
 class Temporary(Screen):
     pass
 
@@ -323,6 +323,8 @@ def go_to_website(instance):
     web.open_new_tab("https://ahammadshawki8.github.io/")
 
 
+
+# AboutHospital class
 class AboutHospital(Screen):
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
@@ -419,6 +421,7 @@ class AboutHospital(Screen):
         pass
 
 
+# Subclasses of AboutHospital class
 class AdminAboutHospital(AboutHospital):
     def go_back(self, instance):
         sm.transition = SlideTransition(direction = "right")
@@ -440,14 +443,19 @@ class EmployeeAboutHospital(AboutHospital):
         sm.current = "EmployeeAfterLogin"
 
 
+
+
+# Documentation class
 class Documentation(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+        self.category = self.find_my_category()
         with self.canvas:
             Color(51/255, 153/255, 255/255,1,mode="rgba")
             Line(points = ((0, 580),(1000, 580)), width = 50)
             Line(points = ((0, 0),(1000, 0)), width = 35)
-        self.title = Label(text=self.first_title().capitalize()+ " Documentaion", font_size=40, color=(1,1,1,1))
+        self.title = Label(text=self.category.capitalize()+ " Documentaion", font_size=40, color=(1,1,1,1))
         self.title.pos_hint= {"x":0.05, "top": 1.45}
         self.add_widget(self.title)
 
@@ -491,19 +499,20 @@ class Documentation(Screen):
     def go_back(self):
         pass
 
-    def first_title(self):
-        return "Default"
+    def find_my_category(self):
+        return "Doctor"
     
     def all_instructions(self):
         return "Default"
 
 
+# Subclasses of Documentation class
 class AdminDocumentation(Documentation):
     def go_back(self, instance):
         sm.transition = SlideTransition(direction = "right")
         sm.current = "AdminAfterLogin"
 
-    def first_title(self):
+    def find_my_category(self):
         return "admin"
 
     def all_instructions(self):
@@ -513,7 +522,7 @@ class AdminDocumentation(Documentation):
         02. See all of your notification as well as profile.
         03. In "Functions" secion, you have a set of functions. 
         04. Use those functions providing necessary information.
-        05. In "Settings" you can change some useful constants.
+        05. In "Settings" you can edit your profile.
         06. Read more about the hospital in "About Hospital" section.
         07. You are currently reading the docs in the "Documentation" section.
         08. Visit creators webpage by clicking on his name at the bottom-right corner.
@@ -522,12 +531,13 @@ class AdminDocumentation(Documentation):
         """
         return text
 
+
 class DoctorDocumentation(Documentation):
     def go_back(self, instance):
         sm.transition = SlideTransition(direction = "right")
         sm.current = "DoctorAfterLogin"
 
-    def first_title(self):
+    def find_my_category(self):
         return "doctor"
 
     def all_instructions(self):
@@ -547,13 +557,12 @@ class DoctorDocumentation(Documentation):
         return text
 
 
-
 class PatientDocumentation(Documentation):
     def go_back(self, instance):
         sm.transition = SlideTransition(direction = "right")
         sm.current = "PatientAfterLogin"
 
-    def first_title(self):
+    def find_my_category(self):
         return "patient"
 
     def all_instructions(self):
@@ -573,13 +582,12 @@ class PatientDocumentation(Documentation):
         return text
 
 
-
 class EmployeeDocumentation(Documentation):
     def go_back(self, instance):
         sm.transition = SlideTransition(direction = "right")
         sm.current = "EmployeeAfterLogin"
 
-    def first_title(self):
+    def find_my_category(self):
         return "employee"
 
     def all_instructions(self):
@@ -599,132 +607,130 @@ class EmployeeDocumentation(Documentation):
         return text
 
 
+
+
+# Profile class
 class Profile(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
         self.username = self.find_my_username()
         self.category = self.find_my_category()
-        try:
-            if self.category == "admin":
-                self.fullname, self.email, self.date_of_birth, *others = self.get_my_profile(self.username, self.category)[0][1:]
-                self.password, self.notifications = others
-            elif self.category == "doctor":
-                self.fullname, self.email, self.date_of_birth, *others = self.get_my_profile(self.username, self.category)[0][1:]
-                self.password, self.specialty, self.price, self.notifications = others
-            elif self.category == "patient":
-                self.fullname, self.email, self.date_of_birth, *others = self.get_my_profile(self.username, self.category)[0][1:]
-                self.password, self.problem, self.requested_doctor_username, self.approved_doctor_username, self.appointment_timestamp, self.reports, self.notifications = others
-            else:
-                self.fullname, self.email, self.date_of_birth, *others = self.get_my_profile(self.username, self.category)[0][1:]
-                self.password, self.work, self.work_of_doctors, self.salary, self.notifications = others
+        if self.category == "admin":
+            self.fullname, self.email, self.date_of_birth, *others = self.get_my_profile(self.username, self.category)[0][1:]
+            self.password, self.notifications = others
+        elif self.category == "doctor":
+            self.fullname, self.email, self.date_of_birth, *others = self.get_my_profile(self.username, self.category)[0][1:]
+            self.password, self.specialty, self.price, self.notifications = others
+        elif self.category == "patient":
+            self.fullname, self.email, self.date_of_birth, *others = self.get_my_profile(self.username, self.category)[0][1:]
+            self.password, self.problem, self.requested_doctor_username, self.approved_doctor_username, self.appointment_timestamp, self.reports, self.notifications = others
+        else:
+            self.fullname, self.email, self.date_of_birth, *others = self.get_my_profile(self.username, self.category)[0][1:]
+            self.password, self.work, self.work_of_doctors, self.salary, self.notifications = others
 
-            with self.canvas:
-                Color(51/255, 153/255, 255/255,1,mode="rgba")
-                Line(points = ((0, 580),(1000, 580)), width = 50)
-                Line(points = ((0, 0),(1000, 0)), width = 35)
-            self.title = Label(text=self.find_my_category().capitalize()+ " Profile", font_size=40, color=(1,1,1,1))
-            self.title.pos_hint= {"x":0.05, "top": 1.45}
-            self.add_widget(self.title)
+        with self.canvas:
+            Color(51/255, 153/255, 255/255,1,mode="rgba")
+            Line(points = ((0, 580),(1000, 580)), width = 50)
+            Line(points = ((0, 0),(1000, 0)), width = 35)
+        self.title = Label(text=self.find_my_category().capitalize()+ " Profile", font_size=40, color=(1,1,1,1))
+        self.title.pos_hint= {"x":0.05, "top": 1.45}
+        self.add_widget(self.title)
 
-            self.logo = Button(background_normal="resources/short_logo.png", background_down="resources/short_logo.png") 
-            self.logo.size_hint = (None, None)
-            self.logo.width = 120
-            self.logo.height = 90
-            self.logo.color = (0,0,0,1)
-            self.logo.pos_hint = {"x": 0.1, "top": 1.02}
-            self.add_widget(self.logo)
+        self.logo = Button(background_normal="resources/short_logo.png", background_down="resources/short_logo.png") 
+        self.logo.size_hint = (None, None)
+        self.logo.width = 120
+        self.logo.height = 90
+        self.logo.color = (0,0,0,1)
+        self.logo.pos_hint = {"x": 0.1, "top": 1.02}
+        self.add_widget(self.logo)
 
-            self.close_button = Button(background_normal="resources/close.png", background_down="resources/close_down.png") 
-            self.close_button.size_hint = (None, None)
-            self.close_button.width = 60
-            self.close_button.height = 60
-            self.close_button.color = (0,0,0,1)
-            self.close_button.pos_hint = {"x": 0.85, "top": 0.99}
-            self.add_widget(self.close_button)
-            self.close_button.bind(on_release = self.go_back)
+        self.close_button = Button(background_normal="resources/close.png", background_down="resources/close_down.png") 
+        self.close_button.size_hint = (None, None)
+        self.close_button.width = 60
+        self.close_button.height = 60
+        self.close_button.color = (0,0,0,1)
+        self.close_button.pos_hint = {"x": 0.85, "top": 0.99}
+        self.add_widget(self.close_button)
+        self.close_button.bind(on_release = self.go_back)
 
-            self.tagline = Label(text="Built with Python, PostgreSQL and Kivy by Ahammad", font_size=13, color=(1,1,1,1))
-            self.tagline.pos_hint = {"x":-0.27, "top": 0.525}
-            self.add_widget(self.tagline)
+        self.tagline = Label(text="Built with Python, PostgreSQL and Kivy by Ahammad", font_size=13, color=(1,1,1,1))
+        self.tagline.pos_hint = {"x":-0.27, "top": 0.525}
+        self.add_widget(self.tagline)
 
-            self.creatorline= Button(text="About Creator: Ahammad Shawki 8", font_size=13, color=(1,1,1,1))
-            self.creatorline.pos_hint = {"x":0.7, "top": 0.05}
-            self.creatorline.size_hint = (0.28,0.05)
-            self.creatorline.background_color = (1,1,1,0)
-            self.add_widget(self.creatorline)
-            self.creatorline.bind(on_press = go_to_website)
+        self.creatorline= Button(text="About Creator: Ahammad Shawki 8", font_size=13, color=(1,1,1,1))
+        self.creatorline.pos_hint = {"x":0.7, "top": 0.05}
+        self.creatorline.size_hint = (0.28,0.05)
+        self.creatorline.background_color = (1,1,1,0)
+        self.add_widget(self.creatorline)
+        self.creatorline.bind(on_press = go_to_website)
 
-            self.info_grid = GridLayout()
-            self.info_grid.cols = 2
-            self.info_grid.size_hint = 0.6,0.3
-            self.info_grid.pos_hint = {"x": 0.2, "top": 0.5}
-            self.username_name = Label(text = "Username:", color = (0,0,0,1), font_size=13)
-            self.info_grid.add_widget(self.username_name)
-            self.username_value = Label(text = self.username, color = (0,0,0,1), font_size=13)
-            self.info_grid.add_widget(self.username_value)
-            self.fullname_name = Label(text = "Fullname:", color = (0,0,0,1), font_size=13)
-            self.info_grid.add_widget(self.fullname_name)
-            self.fullname_value = Label(text = self.fullname, color = (0,0,0,1), font_size=13)
-            self.info_grid.add_widget(self.fullname_value)
-            self.email_name = Label(text = "Email Address:", color = (0,0,0,1), font_size=13)
-            self.info_grid.add_widget(self.email_name)
-            self.email_value = Label(text = self.email, color = (0,0,0,1), font_size=13)
-            self.info_grid.add_widget(self.email_value)
-            self.date_of_birth_name = Label(text = "Date of Birth", color = (0,0,0,1), font_size=13)
-            self.info_grid.add_widget(self.date_of_birth_name)
-            self.date_of_birth_value = Label(text = datetime.datetime.strftime(self.date_of_birth, format = "%d %b,%Y" ), color = (0,0,0,1), font_size=13)
-            self.info_grid.add_widget(self.date_of_birth_value)
-            if self.category == "doctor":
-                self.specialty_name = Label(text = "Specialty:", color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.specialty_name)
-                self.specialty_value = Label(text = self.specialty, color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.specialty_value)
-                self.price_name = Label(text = "Per CheckUp Fee:", color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.price_name)
-                self.price_value = Label(text = str(self.price), color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.price_value)
-            elif self.category == "patient":
-                self.problem_name = Label(text = "Problem:", color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.problem_name)
-                self.problem_value = Label(text = self.problem, color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.problem_value)
-                self.requested_doctor_username_name = Label(text = "Requested Doctor:", color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.requested_doctor_username_name)
-                self.requested_doctor_username_value = Label(text = (self.requested_doctor_username if not self.requested_doctor_username==None else "None"), color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.requested_doctor_username_value)
-                self.approved_doctor_username_name = Label(text = "Approved Doctor:", color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.approved_doctor_username_name)
-                self.approved_doctor_username_value = Label(text = (self.approved_doctor_username if not self.approved_doctor_username==None else "None"), color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.approved_doctor_username_value)
-                self.appointment_timestamp_name = Label(text = "Appointment Timestamp:", color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.appointment_timestamp_name)
-                self.appointment_timestamp_value = Label(text=(datetime.datetime.strftime(self.appointment_timestamp, format="%d %b, %Y %H:%M:%S") if self.appointment_timestamp != None else "None"), color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.appointment_timestamp_value)
-                self.reports_name = Label(text = "Reports:", color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.reports_name)
-                self.report_bucket = self.reports.split("+++")
-                self.report_string = [item.replace("++", ",") for item in self.report_bucket]
-                self.reports_value = Label(text = str(self.report_string), color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.reports_value)
-            elif self.category =="employee":
-                self.work_name = Label(text = "Work:", color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.work_name)
-                self.work_value = Label(text = self.work, color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.work_value)
-                self.work_of_doctors_name = Label(text = "Work of Doctors:", color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.work_of_doctors_name)
-                self.work_of_doctors_value = Label(text = self.work_of_doctors, color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.work_of_doctors_value)
-                self.salary_name = Label(text = "Salary:", color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.salary_name)
-                self.salary_value = Label(text = str(self.salary), color = (0,0,0,1), font_size=13)
-                self.info_grid.add_widget(self.salary_value)
-
-            self.add_widget(self.info_grid)
-        except:
-            pass
-
+        self.info_grid = GridLayout()
+        self.info_grid.cols = 2
+        self.info_grid.size_hint = 0.6,0.3
+        self.info_grid.pos_hint = {"x": 0.2, "top": 0.5}
+        self.username_name = Label(text = "Username:", color = (0,0,0,1), font_size=13)
+        self.info_grid.add_widget(self.username_name)
+        self.username_value = Label(text = self.username, color = (0,0,0,1), font_size=13)
+        self.info_grid.add_widget(self.username_value)
+        self.fullname_name = Label(text = "Fullname:", color = (0,0,0,1), font_size=13)
+        self.info_grid.add_widget(self.fullname_name)
+        self.fullname_value = Label(text = self.fullname, color = (0,0,0,1), font_size=13)
+        self.info_grid.add_widget(self.fullname_value)
+        self.email_name = Label(text = "Email Address:", color = (0,0,0,1), font_size=13)
+        self.info_grid.add_widget(self.email_name)
+        self.email_value = Label(text = self.email, color = (0,0,0,1), font_size=13)
+        self.info_grid.add_widget(self.email_value)
+        self.date_of_birth_name = Label(text = "Date of Birth", color = (0,0,0,1), font_size=13)
+        self.info_grid.add_widget(self.date_of_birth_name)
+        self.date_of_birth_value = Label(text = datetime.datetime.strftime(self.date_of_birth, format = "%d %b,%Y" ), color = (0,0,0,1), font_size=13)
+        self.info_grid.add_widget(self.date_of_birth_value)
+        if self.category == "doctor":
+            self.specialty_name = Label(text = "Specialty:", color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.specialty_name)
+            self.specialty_value = Label(text = self.specialty, color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.specialty_value)
+            self.price_name = Label(text = "Per CheckUp Fee:", color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.price_name)
+            self.price_value = Label(text = str(self.price), color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.price_value)
+        elif self.category == "patient":
+            self.problem_name = Label(text = "Problem:", color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.problem_name)
+            self.problem_value = Label(text = self.problem, color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.problem_value)
+            self.requested_doctor_username_name = Label(text = "Requested Doctor:", color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.requested_doctor_username_name)
+            self.requested_doctor_username_value = Label(text = (self.requested_doctor_username if not self.requested_doctor_username==None else "None"), color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.requested_doctor_username_value)
+            self.approved_doctor_username_name = Label(text = "Approved Doctor:", color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.approved_doctor_username_name)
+            self.approved_doctor_username_value = Label(text = (self.approved_doctor_username if not self.approved_doctor_username==None else "None"), color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.approved_doctor_username_value)
+            self.appointment_timestamp_name = Label(text = "Appointment Timestamp:", color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.appointment_timestamp_name)
+            self.appointment_timestamp_value = Label(text=(datetime.datetime.strftime(self.appointment_timestamp, format="%d %b, %Y %H:%M:%S") if self.appointment_timestamp != None else "None"), color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.appointment_timestamp_value)
+            self.reports_name = Label(text = "Reports:", color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.reports_name)
+            self.report_bucket = self.reports.split("+++")
+            self.report_string = [item.replace("++", ",") for item in self.report_bucket]
+            self.reports_value = Label(text = str(self.report_string), color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.reports_value)
+        elif self.category =="employee":
+            self.work_name = Label(text = "Work:", color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.work_name)
+            self.work_value = Label(text = self.work, color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.work_value)
+            self.work_of_doctors_name = Label(text = "Work of Doctors:", color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.work_of_doctors_name)
+            self.work_of_doctors_value = Label(text = self.work_of_doctors, color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.work_of_doctors_value)
+            self.salary_name = Label(text = "Salary:", color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.salary_name)
+            self.salary_value = Label(text = str(self.salary), color = (0,0,0,1), font_size=13)
+            self.info_grid.add_widget(self.salary_value)
+        self.add_widget(self.info_grid)
 
     def get_my_profile(self, username, category):
         return admin.see_info(True, category, username)
@@ -738,6 +744,8 @@ class Profile(Screen):
     def go_back(self):
         pass
 
+
+# Subclasses of Profile class
 class AdminProfile(Profile):
     def find_my_category(self):
         return "admin"
@@ -748,6 +756,7 @@ class AdminProfile(Profile):
     def go_back(self, instance):
         sm.transition = SlideTransition(direction = "right")
         sm.current = "AdminAfterLogin"
+
 
 class DoctorProfile(Profile):
     def find_my_category(self):
@@ -760,6 +769,7 @@ class DoctorProfile(Profile):
         sm.transition = SlideTransition(direction = "right")
         sm.current = "DoctorAfterLogin"
 
+
 class PatientProfile(Profile):
     def find_my_category(self):
         return "patient"
@@ -770,6 +780,7 @@ class PatientProfile(Profile):
     def go_back(self, instance):
         sm.transition = SlideTransition(direction = "right")
         sm.current = "PatientAfterLogin"
+
 
 class EmployeeProfile(Profile):
     def find_my_category(self):
@@ -784,6 +795,8 @@ class EmployeeProfile(Profile):
         
 
 
+
+# Notifications class
 class Notifications(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -858,6 +871,8 @@ class Notifications(Screen):
     def go_back(self):
         pass
 
+
+# Subclasses of Notifications class
 class AdminNotifications(Notifications):
     def find_my_category(self):
         return "admin"
@@ -871,6 +886,7 @@ class AdminNotifications(Notifications):
     
     def get_my_notification(self, username, category):
         return admin.recent_notifications(username, True, limit = 10)
+
 
 class DoctorNotifications(Notifications):
     def find_my_category(self):
@@ -886,6 +902,7 @@ class DoctorNotifications(Notifications):
     def get_my_notification(self, username, category):
         return doctor.recent_notifications(username, True, limit = 10)
 
+
 class PatientNotifications(Notifications):
     def find_my_category(self):
         return "patient"
@@ -899,6 +916,7 @@ class PatientNotifications(Notifications):
     
     def get_my_notification(self, username, category):
         return patient.recent_notifications(username, True, limit = 10)
+
 
 class EmployeeNotifications(Notifications):
     def find_my_category(self):
@@ -917,8 +935,7 @@ class EmployeeNotifications(Notifications):
 
 
 
-
-
+# AddNotifications class
 class AddNotifications(Screen):
     receiver = ObjectProperty()
     body = ObjectProperty()
@@ -1008,10 +1025,8 @@ class AddNotifications(Screen):
         self.receiver_username_value.text = ""
         self.notification_body_value.text = ""
 
-
     def send_notifications(self,body,receiver,username):
         return "Default"
-
 
     def find_my_category(self):
         return "doctor"
@@ -1023,6 +1038,7 @@ class AddNotifications(Screen):
         pass
 
 
+# Subclasses of AddNotifications class
 class AdminAddNotifications(AddNotifications):
     def find_my_category(self):
         return "admin"
@@ -1052,7 +1068,11 @@ class AdminAddNotifications(AddNotifications):
         self.username = username
         self.category = category
 
-        admin.add_notification(body,category,receiver, True)
+        try:
+            admin.add_notification(body,category,receiver, True)
+        except: 
+            show_NotificationPop()
+
 
 class DoctorAddNotifications(AddNotifications):
     def find_my_category(self):
@@ -1069,8 +1089,12 @@ class DoctorAddNotifications(AddNotifications):
         self.body = body
         self.receiver = receiver
         self.username = username
-        print(self.body, self.username, self.receiver, True)
-        return doctor.notify_admin(self.body, self.username, self.receiver, True)
+
+        try:
+            return doctor.notify_admin(self.body, self.username, self.receiver, True)
+        except:
+            show_NotificationPop()
+
 
 class PatientAddNotifications(AddNotifications):
     def find_my_category(self):
@@ -1087,7 +1111,13 @@ class PatientAddNotifications(AddNotifications):
         self.body = body
         self.receiver = receiver
         self.username = username
-        return patient.notify_admin(self.body, self.username, self.receiver, True)
+
+        try:
+            return patient.notify_admin(self.body, self.username, self.receiver, True)
+        except:
+            show_NotificationPop()
+
+
 
 class EmployeeAddNotifications(AddNotifications):
     def find_my_category(self):
@@ -1104,16 +1134,201 @@ class EmployeeAddNotifications(AddNotifications):
         self.body = body
         self.receiver = receiver
         self.username = username
-        return employee.notify_admin(self.body, self.username, self.receiver, True)
+
+        try:
+            return employee.notify_admin(self.body, self.username, self.receiver, True)
+        except:
+            show_NotificationPop()
+
+
+class NotificationPop(FloatLayout):
+    pass
+
+def show_NotificationPop():
+    show = NotificationPop()
+    popup_window = Popup(title = "Add Notification Error", content = show, size_hint = (0.6, 0.3))
+    popup_window.open()
 
 
 
 
 
+# Settings class
+class Settings(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        self.username = self.find_my_username()
+        self.category = self.find_my_category()
+        with self.canvas:
+            Color(1, 1, 1,1,mode="rgba")
+            Rectangle(pos = self.pos, size = (800,600))
+            Color(51/255, 153/255, 255/255,1,mode="rgba")
+            Line(points = ((0, 580),(1000, 580)), width = 50)
+            Line(points = ((0, 0),(1000, 0)), width = 35)
+        self.title = Label(text=self.find_my_category().capitalize()+ " Settings", font_size=40, color=(1,1,1,1))
+        self.title.pos_hint= {"x":0.05, "top": 1.45}
+        self.add_widget(self.title)
+
+        self.poster = Image(source='resources/settings_pic.png', size_hint= (0.7,0.3), pos_hint= {"x": 0.16, "top": 0.85})
+        self.add_widget(self.poster)
+
+        self.logo = Button(background_normal="resources/short_logo.png", background_down="resources/short_logo.png") 
+        self.logo.size_hint = (None, None)
+        self.logo.width = 120
+        self.logo.height = 90
+        self.logo.color = (0,0,0,1)
+        self.logo.pos_hint = {"x": 0.1, "top": 1.02}
+        self.add_widget(self.logo)
+
+        self.close_button = Button(background_normal="resources/close.png", background_down="resources/close_down.png") 
+        self.close_button.size_hint = (None, None)
+        self.close_button.width = 60
+        self.close_button.height = 60
+        self.close_button.color = (0,0,0,1)
+        self.close_button.pos_hint = {"x": 0.85, "top": 0.99}
+        self.add_widget(self.close_button)
+        self.close_button.bind(on_release = self.go_back)
+
+        self.tagline = Label(text="Built with Python, PostgreSQL and Kivy by Ahammad", font_size=13, color=(1,1,1,1))
+        self.tagline.pos_hint = {"x":-0.27, "top": 0.525}
+        self.add_widget(self.tagline)
+
+        self.creatorline= Button(text="About Creator: Ahammad Shawki 8", font_size=13, color=(1,1,1,1))
+        self.creatorline.pos_hint = {"x":0.7, "top": 0.05}
+        self.creatorline.size_hint = (0.28,0.05)
+        self.creatorline.background_color = (1,1,1,0)
+        self.add_widget(self.creatorline)
+        self.creatorline.bind(on_press = go_to_website)
+
+        self.notice = Label(text= "Only change the profile values which you need to change. Otherswise, leave it blank.", font_size=15, color = (51/255, 153/255, 255/255,1))
+        self.notice.pos_hint = {"x": 0.015, "top": 1}
+        self.add_widget(self.notice)
+
+        self.info_grid = GridLayout()
+        self.info_grid.cols = 2
+        self.info_grid.pos_hint = {"x": 0.2, "top": 0.45}
+        self.info_grid.size_hint = 0.6, 0.2
+
+        self.fullname_name = Label(text= "Fullname:", font_size=15, color = (0,0,0,1))
+        self.info_grid.add_widget(self.fullname_name)
+        self.fullname_value = TextInput(multiline = False)
+        self.info_grid.add_widget(self.fullname_value)            
+        self.email_name = Label(text= "Email Address:", font_size=15, color = (0,0,0,1))
+        self.info_grid.add_widget(self.email_name)
+        self.email_value = TextInput(multiline = False)
+        self.info_grid.add_widget(self.email_value)
+        self.date_of_birth_name = Label(text= "Date of Birth:", font_size=15, color = (0,0,0,1))
+        self.info_grid.add_widget(self.date_of_birth_name)
+        self.date_of_birth_value = TextInput(multiline = False)
+        self.info_grid.add_widget(self.date_of_birth_value)
+        self.add_widget(self.info_grid)
+
+        self.submit = Button(text = "Save Settings")
+        self.submit.font_size = 18
+        self.submit.color = (1, 1, 1, 1)
+        self.submit.italic = True
+        self.submit.background_color = (0/255, 153/255, 204/255, 1)
+        self.submit.size_hint = (0.3,0.08)
+        self.submit.pos_hint = {"x":0.36, "top": 0.175}
+        self.add_widget(self.submit)
+        self.submit.bind(on_release = self.save_settings)
+
+    def find_my_category(self):
+        return "doctor"
+    
+    def find_my_username(self):
+        return "hpt"
+    
+    def go_back(self):
+        pass
+
+    def save_settings(self, instance):
+        fullname = self.fullname_value.text
+        email = self.email_value.text
+        date_of_birth = self.date_of_birth_value.text
+
+        fullname_pass = False
+        email_pass = False
+        date_of_birth_pass = False
+
+        if fullname != "":
+            fullname_pass = True
+        if email != "":
+            email_pass = True
+        if date_of_birth != "":
+            date_of_birth_pass = True
+
+        if fullname_pass:
+            admin.update_db(self.category, self.username, "fullname", fullname, True)
+        if email_pass:
+            admin.update_db(self.category, self.username, "email", email, True)
+        if date_of_birth_pass:
+            admin.update_db(self.category, self.username, "date_of_birth", date_of_birth, True)
+
+        
+
+# Settings sub classes
+class AdminSettings(Settings):
+    def find_my_category(self):
+        return "admin"
+    
+    def find_my_username(self):
+        return Holder.username
+    
+    def go_back(self, instance):
+        sm.transition = SlideTransition(direction = "right")
+        sm.current = "AdminAfterLogin"
+    
+
+class DoctorSettings(Settings):
+    def find_my_category(self):
+        return "doctor"
+    
+    def find_my_username(self):
+        return Holder.username
+    
+    def go_back(self, instance):
+        sm.transition = SlideTransition(direction = "right")
+        sm.current = "DoctorAfterLogin"
+    
+
+class PatientSettings(Settings):
+    def find_my_category(self):
+        return "patient"
+
+    def find_my_username(self):
+        return Holder.username
+    
+    def go_back(self, instance):
+        sm.transition = SlideTransition(direction = "right")
+        sm.current = "PatientAfterLogin"
+
+
+class EmployeeSettings(Settings):
+    def find_my_category(self):
+        return "employee"
+
+    def find_my_username(self):
+        return Holder.username
+    
+    def go_back(self, instance):
+        sm.transition = SlideTransition(direction = "right")
+        sm.current = "EmployeeAfterLogin" 
 
 
 
-# Admin Classes
+
+# Get Started Addition
+# Admin Functions
+# Doctor Functions
+# Patient Functions
+# Employee Functions
+
+
+
+
+# AdminAfterLogin Class
 class AdminAfterLoginWidgets(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -1209,8 +1424,18 @@ class AdminAfterLogin(Screen, Widget):
         sm.transition = SlideTransition(direction = "left")
         sm.current = "AdminAddNotifications"
 
+    def go_to_settings(self):
+        Window.clearcolor = (1,1,1,1)
+        sm.add_widget(AdminSettings(name = "AdminSettings"))
+        sm.transition = SlideTransition(direction = "left")
+        sm.current = "AdminSettings"
+        
 
-# Doctor Classes
+
+
+
+
+# DoctorAfterLofin Classe
 class DoctorAfterLogin(Screen, Widget):
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
@@ -1302,8 +1527,15 @@ class DoctorAfterLogin(Screen, Widget):
         sm.transition = SlideTransition(direction = "left")
         sm.current = "DoctorAddNotifications"
 
+    def go_to_settings(self):
+        sm.add_widget(DoctorSettings(name = "DoctorSettings"))
+        sm.transition = SlideTransition(direction = "left")
+        sm.current = "DoctorSettings"
 
-# Patient Classes
+
+
+
+# PatientAfterLogin Class
 class PatientAfterLogin(Screen, Widget):
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
@@ -1395,7 +1627,16 @@ class PatientAfterLogin(Screen, Widget):
         sm.transition = SlideTransition(direction = "left")
         sm.current = "PatientAddNotifications"
 
-# Employee Classes
+    def go_to_settings(self):
+        sm.add_widget(PatientSettings(name = "PatientSettings"))
+        sm.transition = SlideTransition(direction = "left")
+        sm.current = "PatientSettings"
+
+
+
+
+
+# EmployeeAfterLogin Class
 class EmployeeAfterLogin(Screen, Widget):
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
@@ -1487,6 +1728,12 @@ class EmployeeAfterLogin(Screen, Widget):
         sm.transition = SlideTransition(direction = "left")
         sm.current = "EmployeeAddNotifications"
 
+    def go_to_settings(self):
+        sm.add_widget(EmployeeSettings(name = "EmployeeSettings"))
+        sm.transition = SlideTransition(direction = "left")
+        sm.current = "EmployeeSettings"
+
+
 
 
 
@@ -1502,7 +1749,7 @@ screens = [
     DoctorAfterLogin(name="DoctorAfterLogin"), DoctorAboutHospital(name="DoctorAboutHospital"), DoctorDocumentation(name="DoctorDocumentation"),
     PatientAfterLogin(name="PatientAfterLogin"), PatientAboutHospital(name="PatientAboutHospital"), PatientDocumentation(name="PatientDocumentation"),
     EmployeeAfterLogin(name="EmployeeAfterLogin"), EmployeeAboutHospital(name="EmployeeAboutHospital"), EmployeeDocumentation(name="EmployeeDocumentation"),
-    Profile(name="Profile"), Notifications(name = "Notifications"), AddNotifications(name = "AddNotifications")
+    Profile(name="Profile"), Notifications(name="Notifications"), AddNotifications(name="AddNotifications"), Settings(name="Settings")
     ]
 
 for screen in screens:
@@ -1516,6 +1763,6 @@ class HMSApp(App):
 
 
 
-# Run file
+# Running the entire file
 if __name__ == "__main__":
     HMSApp().run()
