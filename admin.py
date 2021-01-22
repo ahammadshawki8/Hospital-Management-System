@@ -20,15 +20,6 @@ def see_info(logged_in,category,username):
         return info
 
 
-def add_constant(logged_in,name,value):
-    if logged_in:
-        name = name.upper()
-        value = str(value)
-        with open(constant.CONSTANT_FILE, "a") as append_constant:
-            append_constant.write(name+","+value+"\n")
-        return "Constant Added"
-
-
 def update_db(category, username, fieldname, updated_value, logged_in):
     if logged_in:
         date = "DATE" if fieldname == "date_of_birth" else ""
