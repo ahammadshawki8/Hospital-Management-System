@@ -18,6 +18,7 @@ from kivy.uix.button import Button
 from kivy.uix.carousel import Carousel
 from kivy.uix.image import Image
 from kivy.uix.screenmanager import SlideTransition
+from kivy.uix.screenmanager import NoTransition
 from kivy.config import Config
 from kivy.uix.textinput import TextInput
 from kivy.graphics import Rectangle
@@ -1370,27 +1371,38 @@ class AdminFunctions(Screen):
         self.info_grid.size_hint = 0.6, 0.7
 
         self.total_earning_button = Button(text="Total Earning", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
+        self.total_earning_button.bind(on_release = lambda x:self.set_function("total_earning_function"))
         self.info_grid.add_widget(self.total_earning_button)
-        self.add_employee_button = Button(text="Add Employee", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
+        self.add_employee_button = Button(text="Add Employee", background_color = (0.75, 0.75, 0.75, 1), color= (1,1,1,1), font_size = 14)
+        self.add_employee_button.bind(on_release = lambda x:self.set_function("add_employee_function"))
         self.info_grid.add_widget(self.add_employee_button)
         self.see_my_employee_button = Button(text="See My Employee", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
+        self.see_my_employee_button.bind(on_release = lambda x:self.set_function("see_my_employee_function"))
         self.info_grid.add_widget(self.see_my_employee_button)
-        self.remove_employee_button = Button(text="Remove Employee", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
+        self.remove_employee_button = Button(text="Remove Employee", background_color = (0.75, 0.75, 0.75, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.remove_employee_button)
+        self.remove_employee_button.bind(on_release = lambda x:self.set_function("remove_employee_function"))
         self.show_all_doctor_button = Button(text="Show All Doctor", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.show_all_doctor_button)
-        self.show_all_patient_button = Button(text="Show All Patient", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
+        self.show_all_doctor_button.bind(on_release = lambda x:self.set_function("show_all_doctor_function"))
+        self.show_all_patient_button = Button(text="Show All Patient", background_color = (0.75, 0.75, 0.75, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.show_all_patient_button)
+        self.show_all_patient_button.bind(on_release = lambda x:self.set_function("show_all_patient_function"))
         self.show_all_employee_button = Button(text="Show All Employee", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.show_all_employee_button)
-        self.remove_doctor_parmanently_button = Button(text="Remove Doctor Parmanently", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
+        self.show_all_employee_button.bind(on_release = lambda x:self.set_function("show_all_employee_function"))
+        self.remove_doctor_parmanently_button = Button(text="Remove Doctor Parmanently", background_color = (0.75, 0.75, 0.75, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.remove_doctor_parmanently_button)
+        self.remove_doctor_parmanently_button.bind(on_release = lambda x:self.set_function("remove_doctor_parmanently_function"))
         self.remove_patient_parmanently_button = Button(text="Remove Patient Parmanently", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.remove_patient_parmanently_button)
-        self.remove_employee_parmanently_button = Button(text="Remove Employee Parmanently", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
+        self.remove_patient_parmanently_button.bind(on_release = lambda x:self.set_function("remove_patient_parmanently_function"))
+        self.remove_employee_parmanently_button = Button(text="Remove Employee Parmanently", background_color = (0.75, 0.75, 0.75, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.remove_employee_parmanently_button)
+        self.remove_employee_parmanently_button.bind(on_release = lambda x:self.set_function("remove_employee_parmanently_function"))
         self.patient_joins_doctor_button = Button(text="Patient Joins Doctor", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.patient_joins_doctor_button)
+        self.patient_joins_doctor_button.bind(on_release = lambda x:self.set_function("patient_joins_doctor_function"))
 
         self.add_widget(self.info_grid)
     
@@ -1401,6 +1413,219 @@ class AdminFunctions(Screen):
         sm.transition = SlideTransition(direction = "right")
         sm.current = "AdminAfterLogin"
 
+    def set_function(self, function_name):
+        sm.add_widget(AdminDisplayFunction(function_name, name="AdminDisplayFunction"))
+        sm.transition = SlideTransition(direction = "left")
+        sm.current = "AdminDisplayFunction"
+        
+
+
+class AdminDisplayFunction(Screen):
+    def __init__(self, function_name, **kwargs):
+        super().__init__(**kwargs)
+
+        self.username = self.find_my_username()
+        self.category = "admin"
+        self.function_name = function_name
+        with self.canvas:
+            Color(1, 1, 1,1,mode="rgba")
+            Rectangle(pos = self.pos, size = (800,600))
+            Color(51/255, 153/255, 255/255,1,mode="rgba")
+            Line(points = ((0, 580),(1000, 580)), width = 50)
+            Line(points = ((0, 0),(1000, 0)), width = 35)
+        self.title = Label(text="Admin Functions", font_size=40, color=(1,1,1,1))
+        self.title.pos_hint= {"x":0.05, "top": 1.45}
+        self.add_widget(self.title)
+
+        self.logo = Button(background_normal="resources/short_logo.png", background_down="resources/short_logo.png") 
+        self.logo.size_hint = (None, None)
+        self.logo.width = 120
+        self.logo.height = 90
+        self.logo.color = (0,0,0,1)
+        self.logo.pos_hint = {"x": 0.1, "top": 1.02}
+        self.add_widget(self.logo)
+
+        self.close_button = Button(background_normal="resources/close.png", background_down="resources/close_down.png") 
+        self.close_button.size_hint = (None, None)
+        self.close_button.width = 60
+        self.close_button.height = 60
+        self.close_button.color = (0,0,0,1)
+        self.close_button.pos_hint = {"x": 0.85, "top": 0.99}
+        self.add_widget(self.close_button)
+        self.close_button.bind(on_release = self.go_back)
+
+        self.tagline = Label(text="Built with Python, PostgreSQL and Kivy by Ahammad", font_size=13, color=(1,1,1,1))
+        self.tagline.pos_hint = {"x":-0.27, "top": 0.525}
+        self.add_widget(self.tagline)
+
+        self.creatorline= Button(text="About Creator: Ahammad Shawki 8", font_size=13, color=(1,1,1,1))
+        self.creatorline.pos_hint = {"x":0.7, "top": 0.05}
+        self.creatorline.size_hint = (0.28,0.05)
+        self.creatorline.background_color = (1,1,1,0)
+        self.add_widget(self.creatorline)
+        self.creatorline.bind(on_press = go_to_website)        
+
+        if self.function_name == "total_earning_function":
+            final_function = self.total_earning_function
+        elif self.function_name == "add_employee_function":
+            final_function = self.add_employee_function
+        elif self.function_name == "see_my_employee_function":
+            final_function = self.see_my_employee_function
+        elif self.function_name == "remove_employee_function":
+            final_function = self.remove_employee_function
+        elif self.function_name == "show_all_doctor":
+            final_function = self.show_all_doctor_function
+        elif self.function_name == "show_all_patient":
+            final_function = self.show_all_patient_function
+        elif self.function_name == "show_all_employee":
+            final_function = self.show.show_all_employee_function
+        elif self.function_name == "remove_doctor_parmanently":
+            final_function = self.remove_doctor_parmanently_function
+        elif self.function_name == "remove_patient_parmamently":
+            final_function = self.remove_patient_parmanently_function
+        elif self.function_name == "remove_employee_parmanently":
+            final_function = self.remove_employee_parmanently_function
+        else:
+            final_function = self.patient_joins_doctor_function
+
+
+        self.value, size_hint, pos_hint = final_function()
+        self.value.size_hint = size_hint
+        self.value.pos_hint = pos_hint
+        self.add_widget(self.value)
+
+    def find_my_username(self):
+        return Holder.username
+    
+    def go_back(self, instance):
+        for screen in sm.screens:
+            if screen.name == "AdminDisplayFunction":
+                sm.screens.remove(screen)
+        sm.transition = SlideTransition(direction = "right")
+        sm.current = "AdminFunctions"
+
+    def total_earning_function(self):
+        total_earning_list = admin.total_earning(True)
+        earned_from_employee = total_earning_list[0]
+        earned_from_patient = total_earning_list[1]
+        fixed_cost_of_hospital = total_earning_list[2]
+        employee_pre_salary = total_earning_list[3]
+        given_to_employees = total_earning_list[4]
+        initial_earning = total_earning_list[5]
+
+        self.info_grid = GridLayout()
+        self.info_grid.cols = 2
+        size_hint = 0.6, 0.5
+        pos_hint = {"x": 0.2, "top": 0.715}
+
+        self.label1 = Label(text = "Earned From Employee", color = (0,0,0,1), font_size = 16)
+        self.info_grid.add_widget(self.label1)
+        self.label2 = Label(text = "+" + str(earned_from_employee), color = (0,0,0,1), font_size = 16)
+        self.info_grid.add_widget(self.label2)
+        self.label3 = Label(text = "Earned From Patient", color = (0,0,0,1), font_size = 16)
+        self.info_grid.add_widget(self.label3)
+        self.label4 = Label(text = "+" + str(earned_from_patient), color = (0,0,0,1), font_size = 16)
+        self.info_grid.add_widget(self.label4)
+        self.label5 = Label(text = "Fixed Cost of Hospital", color = (0,0,0,1), font_size = 16)
+        self.info_grid.add_widget(self.label5)
+        self.label6 = Label(text = "-" + str(fixed_cost_of_hospital), color = (0,0,0,1), font_size = 16)
+        self.info_grid.add_widget(self.label6)
+        self.label7 = Label(text = "Employee_pre_salary", color = (0,0,0,1), font_size = 16)
+        self.info_grid.add_widget(self.label7)
+        self.label8 = Label(text = "-" + str(employee_pre_salary), color = (0,0,0,1), font_size = 16)
+        self.info_grid.add_widget(self.label8)
+        self.label9 = Label(text = "Given to Employees", color = (0,0,0,1), font_size = 16)
+        self.info_grid.add_widget(self.label9)
+        self.label10 = Label(text = "-" + str(given_to_employees), color = (0,0,0,1), font_size = 16)
+        self.info_grid.add_widget(self.label10)
+        self.label11 = Label(text = "Final Earning", color = (0,0,0,1), font_size = 16)
+        self.info_grid.add_widget(self.label11)
+        self.label12 = Label(text = str(initial_earning), color = (0,0,0,1), font_size = 16)
+        self.info_grid.add_widget(self.label12)
+        
+        return (self.info_grid, size_hint, pos_hint)
+
+    def add_employee_function(self):
+        def current_function():
+            try:
+                admin.add_employee(self.employee_username.text, True)
+            except:
+                show_add_employee_popup()
+            self.employee_username.text = ""
+
+        def show_add_employee_popup():
+            popup_layout = FloatLayout()
+            first_line = Label(text = "Sorry, Something went Wrong :(", size_hint= (0.6, 0.2), pos_hint= {"x": 0.2, "top":0.9})
+            popup_layout.add_widget(first_line)
+            second_line = Label(text="Invalid Username", size_hint= (0.6, 0.2), pos_hint= {"x": 0.21, "top":0.5})
+            popup_layout.add_widget(second_line)
+            popup_window = Popup(title = "Add Employee Error", content = popup_layout, size_hint = (0.6, 0.3))
+            popup_window.open()
+
+        self.info_grid = GridLayout()
+        self.info_grid.cols = 1
+        size_hint = 0.6, 0.2
+        pos_hint = {"x": 0.2, "top": 0.6}
+
+        self.question = Label(text = "Enter the Employee Username You Want to Add", color = (0,0,0,1), font_size = 16)
+        self.info_grid.add_widget(self.question)
+        self.employee_username = TextInput(multiline = True)
+        self.info_grid.add_widget(self.employee_username)
+
+        self.submit = Button(text = "Submit")
+        self.submit.font_size = 18
+        self.submit.color = (1, 1, 1, 1)
+        self.submit.italic = True
+        self.submit.background_color = (0/255, 153/255, 204/255, 1)
+        self.submit.size_hint = (0.3,0.08)
+        self.submit.pos_hint = {"x":0.36, "top": 0.175}
+        self.add_widget(self.submit)
+        self.submit.bind(on_release = lambda x: current_function())
+
+        return (self.info_grid, size_hint, pos_hint)
+
+
+    def see_my_employee_function(self):
+        self.info_grid = GridLayout()
+        self.info_grid.cols = 6
+        pos_hint = {"x": 0.05, "top": 0.75}
+
+        employee_infos = admin.see_my_employee(True)
+        if len(employee_infos) > 7:
+            size_hint = 0.9, 0.6
+        elif len(employee_infos) > 3:
+            size_hint = 0.9, 0.45
+        else:
+            size_hint = 0.9, 0.2
+        
+        self.username_topic = Button(text = "Username", font_size = 17, color = (1,1,1,1), background_color = (0/255, 153/255, 204/255, 1))
+        self.info_grid.add_widget(self.username_topic)
+        self.fullname_topic = Button(text = "Fullname", font_size = 17, color = (1,1,1,1), background_color = (0/255, 153/255, 204/255, 1))
+        self.info_grid.add_widget(self.fullname_topic)
+        self.email_topic = Button(text = "Email", font_size = 17, color = (1,1,1,1), background_color = (0/255, 153/255, 204/255, 1))
+        self.info_grid.add_widget(self.email_topic)
+        self.date_of_birth_topic = Button(text = "Date of Birth", font_size = 17, color = (1,1,1,1), background_color = (0/255, 153/255, 204/255, 1))
+        self.info_grid.add_widget(self.date_of_birth_topic)
+        self.work_topic = Button(text = "Work", font_size = 17, color = (1,1,1,1), background_color = (0/255, 153/255, 204/255, 1))
+        self.info_grid.add_widget(self.work_topic)
+        self.salary_topic = Button(text = "Salary", font_size = 17, color = (1,1,1,1), background_color = (0/255, 153/255, 204/255, 1))
+        self.info_grid.add_widget(self.salary_topic)
+
+        for employee in employee_infos:
+            self.username_info = Label(text = str(employee[0]), font_size = 15, color = (0,0,0,1))
+            self.info_grid.add_widget(self.username_info)
+            self.fullname_info = Label(text = str(employee[1]), font_size = 15, color = (0,0,0,1))
+            self.info_grid.add_widget(self.fullname_info)
+            self.email_info = Label(text = str(employee[2]), font_size = 15, color = (0,0,0,1))
+            self.info_grid.add_widget(self.email_info)
+            self.date_of_birth_info = Label(text = str(employee[3]), font_size = 15, color = (0,0,0,1))
+            self.info_grid.add_widget(self.date_of_birth_info)
+            self.work_info = Label(text = str(employee[4]), font_size = 15, color = (0,0,0,1))
+            self.info_grid.add_widget(self.work_info)
+            self.salary_info = Label(text = str(employee[5]), font_size = 15, color = (0,0,0,1))
+            self.info_grid.add_widget(self.salary_info)
+
+        return (self.info_grid, size_hint, pos_hint)
 
 
 
@@ -1457,23 +1682,23 @@ class DoctorFunctions(Screen):
 
         self.salary_button = Button(text="Salary", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.salary_button)
-        self.show_all_employee_button = Button(text="Show All Employee", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
+        self.show_all_employee_button = Button(text="Show All Employee", background_color = (0.75, 0.75, 0.75, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.show_all_employee_button)
         self.add_employee_button = Button(text="Add Employee", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.add_employee_button)
-        self.see_my_employee_button = Button(text="See My Employee", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
+        self.see_my_employee_button = Button(text="See My Employee", background_color = (0.75, 0.75, 0.75, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.see_my_employee_button)
         self.remove_employee_button = Button(text="Remove Employee", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.remove_employee_button)
-        self.see_all_requested_patient_button = Button(text="See All Requested Patient", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
+        self.see_all_requested_patient_button = Button(text="See All Requested Patient", background_color = (0.75, 0.75, 0.75, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.see_all_requested_patient_button)
         self.see_all_patients_of_my_specialty_button = Button(text="See All Patients of My Specialty", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.see_all_patients_of_my_specialty_button)
-        self.see_my_patient_button = Button(text="See My Patient", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
+        self.see_my_patient_button = Button(text="See My Patient", background_color = (0.75, 0.75, 0.75, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.see_my_patient_button)
         self.see_patients_report_button = Button(text="See Patients Report", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.see_patients_report_button)
-        self.remove_patient_button = Button(text="Remove Patient", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
+        self.remove_patient_button = Button(text="Remove Patient", background_color = (0.75, 0.75, 0.75, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.remove_patient_button)        
 
         self.add_widget(self.info_grid)
@@ -1540,15 +1765,15 @@ class PatientFunctions(Screen):
 
         self.cost_button = Button(text="Total Cost", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.cost_button)
-        self.remaining_appointment_time_button = Button(text="Remaining Appointment Time", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
+        self.remaining_appointment_time_button = Button(text="Remaining Appointment Time", background_color = (0.75, 0.75, 0.75, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.remaining_appointment_time_button)
         self.add_report_button = Button(text="Add Report", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.add_report_button)
-        self.see_all_doctors_for_my_problem_button = Button(text="See All Doctors for My Problem", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
+        self.see_all_doctors_for_my_problem_button = Button(text="See All Doctors for My Problem", background_color = (0.75, 0.75, 0.75, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.see_all_doctors_for_my_problem_button)
         self.request_doctor_button = Button(text="Request Doctor", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.request_doctor_button)    
-        self.remove_request_button = Button(text="Remove Request", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
+        self.remove_request_button = Button(text="Remove Request", background_color = (0.75, 0.75, 0.75, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.remove_request_button)
         self.see_my_doctors_stat_button = Button(text="See My Doctors Stat", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.see_my_doctors_stat_button)        
@@ -1619,7 +1844,7 @@ class EmployeeFunctions(Screen):
 
         self.salary_button = Button(text="Salary", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.salary_button)
-        self.see_my_doctors_button = Button(text="See My Doctors", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
+        self.see_my_doctors_button = Button(text="See My Doctors", background_color = (0.75, 0.75, 0.75, 1), color= (1,1,1,1), font_size = 14)
         self.info_grid.add_widget(self.see_my_doctors_button)   
         if self.is_receptionist:
             self.appoint_doctor_button = Button(text="Appoint Doctor", background_color = (0/255, 153/255, 204/255, 1), color= (1,1,1,1), font_size = 14)
@@ -1744,6 +1969,7 @@ class AdminAfterLogin(Screen, Widget):
         sm.add_widget(AdminFunctions(name = "AdminFunctions"))
         sm.transition = SlideTransition(direction = "left")
         sm.current = "AdminFunctions"
+        
 
         
 
@@ -1751,7 +1977,7 @@ class AdminAfterLogin(Screen, Widget):
 
 
 
-# DoctorAfterLofin Classe
+# DoctorAfterLogin Class
 class DoctorAfterLogin(Screen, Widget):
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
