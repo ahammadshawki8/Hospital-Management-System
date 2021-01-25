@@ -189,14 +189,17 @@ def show_all_doctor(logged_in):
                 SELECT username, fullname, email, date_of_birth, specialty, price FROM doctor;
             """)
             rows = cur1.fetchall()
+            new_rows = []
             for row in rows:
+                row = list(row)
                 row.append(doctor_salary(row[0],True)[2])
+                new_rows.append(row)
             # print(part)
             # for row in rows:
             #     print("Username:", row[0], "\tFullname:", row[1], "\tEmail:", row[2], "\tspecialty:", row[3], "\tPrice:", row[4], "\tTotal Earned:", row[5])
             cur1.close()
         doctor.close()
-        return rows
+        return new_rows
 
 
 def show_all_patient(logged_in):
@@ -207,14 +210,17 @@ def show_all_patient(logged_in):
                 SELECT username, fullname, email, date_of_birth, problem, requested_doctor_username, approved_doctor_username FROM patient;
             """)
             rows = cur1.fetchall()
+            new_rows = []
             for row in rows:
+                row = list(row)
                 row.append(patient_cost(row[0], True)[2])
+                new_rows.append(row)
             # print part
             # for row in rows:
             #     print("Username:", row[0], "\tFullname:", row[1], "\tEmail:", row[2], "\tProblem:", row[3], "\tRequested:", row[4], "\tApproved:", row[5], "\tTotal Cost:", row[6])
             cur1.close()
         patient.close()
-        return rows
+        return new_rows
 
 
 def show_all_employee(logged_in):
@@ -225,14 +231,65 @@ def show_all_employee(logged_in):
                 SELECT username, fullname, email, date_of_birth, work, work_of_doctors, salary FROM employee;
             """)
             rows = cur1.fetchall()
+            new_rows = []
             for row in rows:
+                row = list(row)
                 row.append(employee_salary(row[0],True)[2])
+                new_rows.append(row)
             # print part
             # for row in rows:
             #     print("Username:", row[0], "\tFullname:", row[1], "\tEmail:", row[2], "\tWork:", row[3], "\tDoctors:", row[4], "\tSalary:", row[5], "\tTotal Earned:", row[6])
             cur1.close()
         employee.close()
-        return rows
+        return new_rows
+
+
+def all_doctor_username(logged_in):
+    if logged_in:
+        with psycopg2.connect(**config()) as doctor:
+            cur1 = doctor.cursor()
+            cur1.execute("""
+                SELECT username FROM doctor;
+            """)
+            rows = cur1.fetchall()
+            new_rows = []
+            for row in rows:
+                new_rows.append(row[0])
+            cur1.close()
+        doctor.close()
+        return new_rows
+
+
+def all_patient_username(logged_in):
+    if logged_in:
+        with psycopg2.connect(**config()) as patient:
+            cur1 = patient.cursor()
+            cur1.execute("""
+                SELECT username FROM patient;
+            """)
+            rows = cur1.fetchall()
+            new_rows = []
+            for row in rows:
+                new_rows.append(row[0])
+            cur1.close()
+        patient.close()
+        return new_rows
+
+
+def all_employee_username(logged_in):
+    if logged_in:
+        with psycopg2.connect(**config()) as employee:
+            cur1 = employee.cursor()
+            cur1.execute("""
+                SELECT username FROM employee;
+            """)
+            rows = cur1.fetchall()
+            new_rows = []
+            for row in rows:
+                new_rows.append(row[0])
+            cur1.close()
+        employee.close()
+        return new_rows
 
 
 def remove_doctor_parmanently(doctor_username, logged_in, final_decision = False):

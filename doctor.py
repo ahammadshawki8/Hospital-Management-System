@@ -108,7 +108,6 @@ def add_employee(my_username, employee_username, logged_in):
             """, [employee_username])
 
             temporary = cur0.fetchall()
-            print(temporary)
             work_of_doctors = temporary[0][0]
             work_of_doctors += ", " + my_username
             cur0.close()
