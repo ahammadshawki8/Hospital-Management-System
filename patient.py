@@ -66,10 +66,11 @@ def cost(username, logged_in):
                 SELECT approved_doctor_username FROM patient WHERE username = %s;
             """, [username])
             approved_doctor_username = cur1.fetchall()[0][0]
+            print(approved_doctor_username)
             cur1.close()
 
             cur2 = total_cost.cursor()
-            if approved_doctor_username != "NULL":
+            if approved_doctor_username != "hpt":
                 cur2.execute("""
                     SELECT price FROM doctor WHERE username = %s;
                 """, [approved_doctor_username])
@@ -107,7 +108,7 @@ def add_report(report_name, report_url, username, logged_in):
         return "Report Added"
 
 
-def  see_all_doctors_for_my_problem(username, logged_in):
+def see_all_doctors_for_my_problem(username, logged_in):
     if logged_in:
         with psycopg2.connect(**config()) as doctors_as_problem:
             cur1 = doctors_as_problem.cursor()
@@ -168,7 +169,6 @@ def see_my_doctors_stat(username, logged_in):
             temp = cur1.fetchall()[0]
             approved_doctor_username = temp[0]
             appointment_timestamp = temp[1]
-            print(approved_doctor_username)
             cur1.close()
 
             cur2 = my_doctor.cursor()
@@ -176,7 +176,7 @@ def see_my_doctors_stat(username, logged_in):
                 SELECT username, fullname, email, date_of_birth, specialty, price FROM doctor WHERE username = %s;
             """, [approved_doctor_username])
             
-            rows = cur2.fetchall()
+            rows = list(cur2.fetchall()[0])
             rows.append(appointment_timestamp)
             # print part
             # for row in rows:

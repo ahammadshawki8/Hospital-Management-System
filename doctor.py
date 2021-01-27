@@ -82,13 +82,13 @@ def salary(username, logged_in):
         return (total_earning, total_cost, nit_salary)
 
 
-def show_all_employee(employee_work, logged_in):
+def show_all_employee(logged_in):
     if logged_in:
         with psycopg2.connect(**config()) as all_employee:
             cur1 = all_employee.cursor()
             cur1.execute("""
-                SELECT username, fullname, email, date_of_birth, salary FROM employee WHERE work = %s;
-            """, [employee_work])
+                SELECT username, fullname, email, date_of_birth, work, salary FROM employee;
+            """)
 
             rows = cur1.fetchall()
             # print part
@@ -189,17 +189,17 @@ def see_all_patients_of_my_specialty(username, logged_in):
             cur0.execute("""
                 SELECT specialty FROM doctor WHERE username = %s;
             """, [username])
-            specialty = cur0.fetchall()[0][0]
+            specialty = str(cur0.fetchall()[0][0]).lower()
             cur0.close()
 
             cur1 = all_under_specialty.cursor()
             cur1.execute("""
-                SELECT username, fullname, email, date_of_birth, requested_doctor, approved_doctor FROM patient WHERE problem = %s;
+                SELECT username, fullname, email, date_of_birth, requested_doctor_username, approved_doctor_username FROM patient WHERE problem = %s;
             """, [specialty])
             
             rows = cur1.fetchall()
-            for row in rows:
-                print("Username:", row[0], "\tFullname:", row[1], "\tEmail:", row[2], "\tRequested Doctor:", row[3], "\tApproved Doctor:", row[4])
+            # for row in rows:
+            #     print("Username:", row[0], "\tFullname:", row[1], "\tEmail:", row[2], "\tRequested Doctor:", row[3], "\tApproved Doctor:", row[4])
             cur1.close()
         all_under_specialty.close()
         return rows
@@ -210,7 +210,7 @@ def see_my_patient(username, logged_in):
         with psycopg2.connect(**config()) as my_patient:
             cur0 = my_patient.cursor()
             cur0.execute("""
-                SELECT username, fullname, email, date_of_birth, problem FROM patient WHERE approved_doctor_username = %s;
+                SELECT username, fullname, email, date_of_birth, problem, appointment_timestamp FROM patient WHERE approved_doctor_username = %s;
             """, [username])
             
             rows = cur0.fetchall()
@@ -246,8 +246,8 @@ def remove_patient(patient_username, logged_in):
         with psycopg2.connect(**config()) as removing_patient:
             cur0 = removing_patient.cursor()
             cur0.execute("""
-                UPDATE patient SET approved_doctor_username = 'NULL', appointment_timestamp = 'NULL' WHERE username = %s;
-            """, [patient_username]) 
+                UPDATE patient SET approved_doctor_username = %s, appointment_timestamp = %s WHERE username = %s;
+            """, [None, None, patient_username]) 
             print(cur0.statusmessage)        
             cur0.close()
             removing_patient.commit()
