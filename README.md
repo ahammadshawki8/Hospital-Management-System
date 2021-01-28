@@ -115,7 +115,7 @@ Psycopg2 and Kivy module is used for creating the database connection and fronte
 - contains images and other resources
 
 ## [backup_&_restore_folder](backup_&_restore_folder)
-- contains multiple csv file which is vital for the backup and restore process of the application.
+- contains multiple csv files which are vital for the backup and restore process of the application.
   
 <br>
 
