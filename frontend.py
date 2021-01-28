@@ -59,16 +59,112 @@ Config.write()
 
 # SignUp Classes
 class GetStarted(Screen):
-    first_start = False
+    first_start = True if (constant.grab_constant(True, "IS_START")=="0") else False
     def start_program(self):
         if GetStarted.first_start:
-            setup_engine.start_program()
-
-    def change_first_start(self, value=False):
-        GetStarted.first_start = value
+            sm.transition = SlideTransition(direction = "up")
+            sm.current = "ConstantFixing"
+        else:
+            sm.transition = SlideTransition(direction = "up")
+            sm.current = "PatientSignUp"
+            
 
     def go_to_website(self):
         web.open_new_tab("https://ahammadshawki8.github.io/")
+
+
+
+class ConstantFixing(Screen):
+    host = ObjectProperty()  
+    port = ObjectProperty()   
+    user = ObjectProperty()  
+    password = ObjectProperty()  
+    cut_from_patient = ObjectProperty()   
+    cut_from_employee = ObjectProperty()  
+    fixed_cost_of_hospital = ObjectProperty()  
+    pre_salary = ObjectProperty()  
+    doctor_max_checkup_price = ObjectProperty()  
+    employee_max_salary = ObjectProperty()  
+    hospital_year = ObjectProperty()  
+    hospital_total_bed = ObjectProperty()  
+    hospital_remaining_bed = ObjectProperty()  
+    hospital_total_employee = ObjectProperty()  
+    hospital_total_doctor = ObjectProperty()  
+    hospital_total_patient = ObjectProperty()  
+    hospital_current_patient = ObjectProperty()  
+    hospital_motto = ObjectProperty()  
+    hospital_location = ObjectProperty()  
+    hospital_title = ObjectProperty()  
+
+    def set_constant_function(self):
+        try:
+            constants_bucket = dict()
+            constants_bucket["HOST"] = self.host.text
+            constants_bucket["PORT"] = self.port.text
+            constants_bucket["ADMIN_DATABASE"] = "postgres"
+            constants_bucket["DATABASE"] ="hms"
+            constants_bucket["USER"] = self.user.text
+            constants_bucket["PASSWORD"] = self.password.text
+            constants_bucket["CUT_FROM_PATIENT"] = self.cut_from_patient.text 
+            constants_bucket["CUT_FROM_EMPLOYEE"] = self.cut_from_employee.text
+            constants_bucket["FIXED_COST_OF_HOSPITAL"] = self.fixed_cost_of_hospital.text
+            constants_bucket["PRE_SALARY"] = self.pre_salary.text
+            constants_bucket["DOCTOR_MAX_CHECKUP_PRICE"] = self.doctor_max_checkup_price.text
+            constants_bucket["EMPLOYEE_MAX_SALARY"] = self.employee_max_salary.text
+            constants_bucket["HOSPITAL_YEAR"] = self.hospital_year.text
+            constants_bucket["HOSPITAL_TOTAL_BED"] = self.hospital_total_bed.text
+            constants_bucket["HOSPITAL_REMAINING_BED"] = self.hospital_remaining_bed.text
+            constants_bucket["HOSPITAL_TOTAL_EMPLOYEE"] = self.hospital_total_employee.text
+            constants_bucket["HOSPITAL_TOTAL_DOCTOR"] = self.hospital_total_doctor.text
+            constants_bucket["HOSPITAL_TOTAL_PATIENT"] = self.hospital_total_patient.text
+            constants_bucket["HOSPITAL_CURRENT_PATIENT"] = self.hospital_current_patient.text
+            constants_bucket["HOSPITAL_MOTTO"] = self.hospital_motto.text
+            constants_bucket["HOSPITAL_LOCATION"] = self.hospital_location.text
+            constants_bucket["HOSPITAL_TITLE"] = self.hospital_title.text
+            constants_bucket["IS_START"] = "1"
+            constant.set_constant(True, constants_bucket)
+            self.proceed()
+        except:
+            show_ConstantFixingPop()
+
+        self.host.text = "localhost"
+        self.port.text = "5432"
+        self.user.text = "postgres"
+        self.password.text = "12345678"
+        self.cut_from_patient.text = "50" 
+        self.cut_from_employee.text = "20"
+        self.fixed_cost_of_hospital.text = "5000"
+        self.pre_salary.text = "10"
+        self.doctor_max_checkup_price.text = "4000"
+        self.employee_max_salary.text = "15000"
+        self.hospital_year.text = "2004"
+        self.hospital_total_bed.text = "200"
+        self.hospital_remaining_bed.text = "120"
+        self.hospital_total_employee.text = "16"
+        self.hospital_total_doctor.text = "10"
+        self.hospital_total_patient.text = "2000"
+        self.hospital_current_patient.text = "40"
+        self.hospital_motto.text = "serve the nation at large"
+        self.hospital_location.text = "Dhaka-Bangladesh"
+        self.hospital_title.text = "The AS8 Hospital"
+
+    def proceed(self):
+        sm.transition = SlideTransition(direction = "up")
+        sm.current = "PatientSignUp"
+
+
+class ConstantFixingPop(FloatLayout):
+    pass
+
+
+def show_ConstantFixingPop():
+    show = ConstantFixingPop()
+    popup_window = Popup(title = "Constant Fixing Error", content = show, size_hint = (0.6, 0.3))
+    popup_window.open()
+
+
+
+
 
 
 class AdminSignUp(Screen):
@@ -430,36 +526,24 @@ class AboutHospital(Screen):
 # Subclasses of AboutHospital class
 class AdminAboutHospital(AboutHospital):
     def go_back(self, instance):
-        for screen in sm.screens:
-            if screen.name == "AdminAboutHospital":
-                sm.screens.remove(screen)
         sm.transition = SlideTransition(direction = "right")
         sm.current = "AdminAfterLogin"
 
 
 class DoctorAboutHospital(AboutHospital):
     def go_back(self, instance):
-        for screen in sm.screens:
-            if screen.name == "DoctorAboutHospital":
-                sm.screens.remove(screen)
         sm.transition = SlideTransition(direction = "right")
         sm.current = "DoctorAfterLogin"
 
 
 class PatientAboutHospital(AboutHospital):
     def go_back(self, instance):
-        for screen in sm.screens:
-            if screen.name == "PatientAboutHospital":
-                sm.screens.remove(screen)
         sm.transition = SlideTransition(direction = "right")
         sm.current = "PatientAfterLogin"
 
 
 class EmployeeAboutHospital(AboutHospital):
     def go_back(self, instance):
-        for screen in sm.screens:
-            if screen.name == "EmployeeAboutHospital":
-                sm.screens.remove(screen)
         sm.transition = SlideTransition(direction = "right")
         sm.current = "EmployeeAfterLogin"
 
@@ -532,9 +616,6 @@ class Documentation(Screen):
 # Subclasses of Documentation class
 class AdminDocumentation(Documentation):
     def go_back(self, instance):
-        for screen in sm.screens:
-            if screen.name == "AdminDocumentation":
-                sm.screens.remove(screen)
         sm.transition = SlideTransition(direction = "right")
         sm.current = "AdminAfterLogin"
 
@@ -560,9 +641,6 @@ class AdminDocumentation(Documentation):
 
 class DoctorDocumentation(Documentation):
     def go_back(self, instance):
-        for screen in sm.screens:
-            if screen.name == "DoctorDocumentation":
-                sm.screens.remove(screen)
         sm.transition = SlideTransition(direction = "right")
         sm.current = "DoctorAfterLogin"
 
@@ -588,9 +666,6 @@ class DoctorDocumentation(Documentation):
 
 class PatientDocumentation(Documentation):
     def go_back(self, instance):
-        for screen in sm.screens:
-            if screen.name == "PatientDocumentation":
-                sm.screens.remove(screen)
         sm.transition = SlideTransition(direction = "right")
         sm.current = "PatientAfterLogin"
 
@@ -616,9 +691,6 @@ class PatientDocumentation(Documentation):
 
 class EmployeeDocumentation(Documentation):
     def go_back(self, instance):
-        for screen in sm.screens:
-            if screen.name == "EmployeeDocumentation":
-                sm.screens.remove(screen)
         sm.transition = SlideTransition(direction = "right")
         sm.current = "EmployeeAfterLogin"
 
@@ -3898,7 +3970,7 @@ class EmployeeAfterLogin(Screen, Widget):
 kv = Builder.load_file("frontend.kv")
 sm = WindowManager(transition = SlideTransition())
 screens = [
-    GetStarted(name="GetStarted"),
+    GetStarted(name="GetStarted"), ConstantFixing(name="ConstantFixing"),
     AdminSignUp(name="AdminSignUp"), DoctorSignUp(name="DoctorSignUp"), PatientSignUp(name="PatientSignUp"), EmployeeSignUp(name="EmployeeSignUp"),
     AdminLogin(name="AdminLogin"), DoctorLogin(name="DoctorLogin"), PatientLogin(name="PatientLogin"), EmployeeLogin(name="EmployeeLogin"),
     AboutHospital(name="AboutHospital"), Documentation(name="Documentation"),

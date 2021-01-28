@@ -8,6 +8,7 @@ import admin
 import constant
 import setup_engine
 import backup_restore
+import kivy
 
 
-print(patient.see_my_doctors_stat("abc",True))
+print(kivy.deps.__version__)

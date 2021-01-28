@@ -17,3 +17,8 @@ def grab_constant(logged_in, name):
 		name = name.upper()
 		value = constants.get(name)
 		return value
+
+def set_constant(logged_in, constants_dict):
+	with open(CONSTANT_FILE, "w") as write_constant:
+		for key, value in constants_dict.items():
+			write_constant.write(key.upper() + "," + value + "\n")

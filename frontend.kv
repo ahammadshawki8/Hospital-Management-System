@@ -24,8 +24,6 @@
             pos_hint: {"x":0.36, "top": 0.35}
             on_release:
                 root.start_program()
-                app.root.transition = SlideTransition(direction = "up")
-                app.root.current = "PatientSignUp"
 
         Button:
             text: "Ahammad Shawki 8"
@@ -37,6 +35,269 @@
             pos_hint: {"x":0.36, "top": 0.2}
             on_release:
                 root.go_to_website()
+
+
+
+<ConstantFixing>:
+    name: "ConstantFixing"
+
+    host: HOST  
+    port: PORT  
+    user: USER  
+    password: PASSWORD  
+    cut_from_patient: CUT_FROM_PATIENT   
+    cut_from_employee: CUT_FROM_EMPLOYEE  
+    fixed_cost_of_hospital: FIXED_COST_OF_HOSPITAL  
+    pre_salary: PRE_SALARY  
+    doctor_max_checkup_price: DOCTOR_MAX_CHECKUP_PRICE  
+    employee_max_salary: EMPLOYEE_MAX_SALARY  
+    hospital_year: HOSPITAL_YEAR  
+    hospital_total_bed: HOSPITAL_TOTAL_BED  
+    hospital_remaining_bed: HOSPITAL_REMAINING_BED  
+    hospital_total_employee: HOSPITAL_TOTAL_EMPLOYEE  
+    hospital_total_doctor: HOSPITAL_TOTAL_DOCTOR  
+    hospital_total_patient: HOSPITAL_TOTAL_PATIENT  
+    hospital_current_patient: HOSPITAL_CURRENT_PATIENT  
+    hospital_motto: HOSPITAL_MOTTO  
+    hospital_location: HOSPITAL_LOCATION  
+    hospital_title: HOSPITAL_TITLE  
+
+    FloatLayout:
+        Label:
+            text: "INITIALLY  SETTING  UP  FEW  CONSTANTS"
+            font_size: 30
+            color: (0.4, 0.4, 0.4,1)
+            pos_hint: {"top": 1.45}
+
+
+        GridLayout:   
+            cols: 2 
+            size_hint: (0.6,0.84)   
+            pos_hint: {"x":0.2, "top": 0.92}
+            Label:
+                text: "HOST: "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: HOST
+                text: "localhost"
+                multiline: False
+                background_color: (1,1,1,1)
+                font_size: 10
+
+            Label:
+                text: "PORT: "
+                font_size: 10
+                color: (51/255, 153/255, 255/255,1)
+            TextInput:
+                id: PORT
+                text: "5432"
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "USER: "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: USER
+                text: "postgres"
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "PASSWORD: "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: PASSWORD
+                password: True
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "CUT_FROM_PATIENT : "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: CUT_FROM_PATIENT 
+                text: "50"
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "CUT_FROM_EMPLOYEE: "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: CUT_FROM_EMPLOYEE
+                text: "20"
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "FIXED_COST_OF_HOSPITAL: "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: FIXED_COST_OF_HOSPITAL
+                text: "5000"
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "PRE_SALARY: "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: PRE_SALARY
+                text: "10"
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "DOCTOR_MAX_CHECKUP_PRICE: "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: DOCTOR_MAX_CHECKUP_PRICE
+                text: "4000"
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "EMPLOYEE_MAX_SALARY: "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: EMPLOYEE_MAX_SALARY
+                text: "15000"
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "HOSPITAL_YEAR: "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: HOSPITAL_YEAR
+                text: "2004"
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "HOSPITAL_TOTAL_BED: "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: HOSPITAL_TOTAL_BED
+                text: "200"
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "HOSPITAL_REMAINING_BED: "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: HOSPITAL_REMAINING_BED
+                text: "120"
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "HOSPITAL_TOTAL_EMPLOYEE: "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: HOSPITAL_TOTAL_EMPLOYEE
+                text: "16"
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "HOSPITAL_TOTAL_DOCTOR: "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: HOSPITAL_TOTAL_DOCTOR
+                text: "10"
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "HOSPITAL_TOTAL_PATIENT: "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: HOSPITAL_TOTAL_PATIENT
+                text: "2000"
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "HOSPITAL_CURRENT_PATIENT: "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: HOSPITAL_CURRENT_PATIENT
+                text: "40"
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "HOSPITAL_MOTTO: "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: HOSPITAL_MOTTO
+                text: "serve the nation at large"
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "HOSPITAL_LOCATION: "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: HOSPITAL_LOCATION
+                text: "Dhaka-Bangladesh"
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "HOSPITAL_TITLE: "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: HOSPITAL_TITLE
+                text: "The AS8 Hospital"
+                multiline: False
+                font_size: 10
+            
+        Button: 
+            text: "Done"
+            font_size: 14
+            color: (1, 1, 1,1)
+            italic: True
+            background_color: (0/255, 153/255, 204/255, 1)
+            size_hint: (0.25,0.06)
+            pos_hint: {"x":0.36, "top": 0.07}
+            on_release: 
+                root.set_constant_function()
+
+
+<ConstantFixingPop>:
+    Label:
+        text: "Sorry, Something went Wrong :("
+        size_hint: 0.6, 0.2
+        pos_hint: {"x": 0.2, "top":0.9}
+    Label:
+        text: "Please read the docs and try again"
+        size_hint: 0.6, 0.2
+        pos_hint: {"x": 0.2, "top":0.7}
+
+
 
         
 <AdminSignUp>:
