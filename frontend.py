@@ -95,6 +95,7 @@ class ConstantFixing(Screen):
     hospital_motto = ObjectProperty()  
     hospital_location = ObjectProperty()  
     hospital_title = ObjectProperty()  
+    restore_previous = ObjectProperty()
 
     def set_constant_function(self):
         try:
@@ -124,6 +125,8 @@ class ConstantFixing(Screen):
             constants_bucket["IS_START"] = "1"
             constant.set_constant(True, constants_bucket)
             self.proceed()
+            if self.restore_previous.text == "yes":
+                setup_engine.start_program()
         except:
             show_ConstantFixingPop()
 
@@ -147,6 +150,7 @@ class ConstantFixing(Screen):
         self.hospital_motto.text = "serve the nation at large"
         self.hospital_location.text = "Dhaka-Bangladesh"
         self.hospital_title.text = "The AS8 Hospital"
+        self.restore_previous.text = "no"
 
     def proceed(self):
         sm.transition = SlideTransition(direction = "up")

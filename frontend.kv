@@ -60,7 +60,8 @@
     hospital_current_patient: HOSPITAL_CURRENT_PATIENT  
     hospital_motto: HOSPITAL_MOTTO  
     hospital_location: HOSPITAL_LOCATION  
-    hospital_title: HOSPITAL_TITLE  
+    hospital_title: HOSPITAL_TITLE 
+    restore_previous: RESTORE_PREVIOUS 
 
     FloatLayout:
         Label:
@@ -272,6 +273,16 @@
             TextInput:
                 id: HOSPITAL_TITLE
                 text: "The AS8 Hospital"
+                multiline: False
+                font_size: 10
+
+            Label:
+                text: "RESTORE_PREVIOUS(yes/no): "
+                color: (51/255, 153/255, 255/255,1)
+                font_size: 10
+            TextInput:
+                id: RESTORE_PREVIOUS
+                text: "no"
                 multiline: False
                 font_size: 10
             
