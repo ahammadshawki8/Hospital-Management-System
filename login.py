@@ -26,7 +26,7 @@ def login(category, username, password):
 
 def signup(category, *args):
     if category == "admin":
-        username, fullname, email, date_of_birth, password, salary = args
+        username, fullname, email, date_of_birth, password = args
         date_of_birth = datetime.datetime.strptime(date_of_birth,"%Y-%m-%d")
         notifications = "Logged in"
 
@@ -39,10 +39,10 @@ def signup(category, *args):
                     email,
                     date_of_birth,
                     password,
-                    notification
+                    notifications
                 )
                 VALUES (
-                    %s, %s, %s, DATE %s, %s, %s, %s
+                    %s, %s, %s, DATE %s, %s, %s
                 ) ON CONFLICT(username) DO NOTHING;
             """, (username, fullname, email, date_of_birth, password, notifications))
 

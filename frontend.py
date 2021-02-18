@@ -9,7 +9,6 @@ from kivy.core.window import Window
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.popup import Popup
 import webbrowser as web
-import setup_engine
 from kivy.uix.widget import Widget
 from kivy.graphics import Color
 from kivy.graphics import Line
@@ -25,6 +24,7 @@ from kivy.graphics import Rectangle
 from kivy.uix.scrollview import ScrollView
 from kivy.app import runTouchApp
 
+import setup_engine
 import login
 import constant
 import admin
@@ -49,6 +49,7 @@ class Holder():
     pre_counter = 0
 
 Config.set('graphics', 'height', 600)
+Config.set('graphics', 'width', 800)
 Config.set('graphics', 'resizable', 0)
 Config.write()
 
@@ -177,7 +178,6 @@ class AdminSignUp(Screen):
     email = ObjectProperty()
     date_of_birth = ObjectProperty()
     password = ObjectProperty()
-    salary = ObjectProperty()
 
     def signup_to_database(self):
         try:
