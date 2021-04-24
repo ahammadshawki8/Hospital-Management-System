@@ -1,4 +1,4 @@
-MAIN_FILE = "H:\\Study_Work\\Python\\Python WorkSpace\\# Projects\\Hospital Management system"
+MAIN_FILE = os.getcwd()
 CONSTANT_FILE = MAIN_FILE + "\\backup_&_restore_folder\\constant.csv"
 constants ={}
 condition = True
