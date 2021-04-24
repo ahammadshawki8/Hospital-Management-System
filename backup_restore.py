@@ -6,10 +6,10 @@ from constant import MAIN_FILE
 def backup_to_csv(logged_in):
     if logged_in:
         with psycopg2.connect(**config()) as backup:
-            ADMIN_FILE = MAIN_FILE + "\\backup_&_restore_folder\\admin.csv"
-            DOCTOR_FILE = MAIN_FILE + "\\backup_&_restore_folder\\doctor.csv"
-            PATIENT_FILE = MAIN_FILE + "\\backup_&_restore_folder\\patient.csv"
-            EMPLOYEE_FILE = MAIN_FILE + "\\backup_&_restore_folder\\employee.csv"
+            ADMIN_FILE = os.path.join(MAIN_FILE, "backup_&_restore_folder", "admin.csv")
+            DOCTOR_FILE = os.path.join(MAIN_FILE, "backup_&_restore_folder", "doctor.csv")
+            PATIENT_FILE = os.path.join(MAIN_FILE, "backup_&_restore_folder", "patient.csv")
+            EMPLOYEE_FILE = os.path.join(MAIN_FILE, "backup_&_restore_folder", "employee.csv")
 
             cur0 = backup.cursor()
             cur0.execute("""
@@ -43,10 +43,10 @@ def backup_to_csv(logged_in):
 def restore_from_csv(logged_in):
     if logged_in:
         with psycopg2.connect(**config()) as restore:
-            ADMIN_FILE = MAIN_FILE + "\\\\backup_&_restore_folder\\admin.csv"
-            DOCTOR_FILE = MAIN_FILE + "\\\\backup_&_restore_folder\\doctor.csv"
-            PATIENT_FILE = MAIN_FILE + "\\\\backup_&_restore_folder\\patient.csv"
-            EMPLOYEE_FILE = MAIN_FILE + "\\\\backup_&_restore_folder\\employee.csv"
+            ADMIN_FILE = os.path.join(MAIN_FILE, "backup_&_restore_folder", "admin.csv")
+            DOCTOR_FILE = os.path.join(MAIN_FILE, "backup_&_restore_folder", "doctor.csv")
+            PATIENT_FILE = os.path.join(MAIN_FILE, "backup_&_restore_folder", "patient.csv")
+            EMPLOYEE_FILE = os.path.join(MAIN_FILE, "backup_&_restore_folder", "employee.csv")
 
             cur0 = restore.cursor()
             cur0.execute("""

@@ -1,5 +1,5 @@
 MAIN_FILE = os.getcwd()
-CONSTANT_FILE = MAIN_FILE + "\\backup_&_restore_folder\\constant.csv"
+CONSTANT_FILE = os.path.join(MAIN_FILE, "backup_&_restore_folder", "constant.csv")
 constants ={}
 condition = True
 with open(CONSTANT_FILE, "r") as read_constant:
