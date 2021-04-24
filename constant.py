@@ -1,5 +1,5 @@
-MAIN_FILE = "H:\\Study_Work\\Python\\Python WorkSpace\\# Projects\\Hospital Management system"
-CONSTANT_FILE = MAIN_FILE + "\\backup_&_restore_folder\\constant.csv"
+MAIN_FILE = os.getcwd()
+CONSTANT_FILE = os.path.join(MAIN_FILE, "backup_&_restore_folder", "constant.csv")
 constants ={}
 condition = True
 with open(CONSTANT_FILE, "r") as read_constant:
